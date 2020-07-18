@@ -6,3 +6,21 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.bg-aqua {
+    background-color: #e3f2fd;
+}
+
+.bg-greeny {
+    background-color: #fafcf8;
+}
+
+.pizza-item {
+    // width: 240px;
+    // height: 240px;
+    transition: box-shadow .1s;
+    border-radius: 10px;
+    &:hover {
+        box-shadow: 0 0 5px rgba(33, 33, 33, .2); 
+    }
+}

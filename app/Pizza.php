@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pizza extends Model
 {
+    private static $USD = 1.15;
+
     public static function getItems() {
-        return Self::select('id', 'name', 'img', 'price')->get();
+        $array = Self::select('id', 'name', 'img', 'price')->get()->toArray();
+
+        foreach ($array as $key => $value) {
+            $array[$key]['usd'] = intval(round($value['price'] * Self::$USD));
+        }
+
+        return $array;
     }
 }
