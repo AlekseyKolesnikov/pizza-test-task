@@ -2,11 +2,13 @@ import React from 'react';
 import AddButton from './AddButton';
 import { formatPrice } from '../utils';
 
-const Item = ({item, currency, qnt, addToBasket, removeFromBasket}) => {
+const Item = ({item, currency, qnt, addToBasket, removeFromBasket, showDetails}) => {
 	const curStr = (currency ? 'dollar' : 'euro')
 	const price = (currency ? formatPrice(item.usd) : formatPrice(item.price))
+
     return (
-        <a className="border bg-white m-3 d-flex flex-column align-items-center text-dark text-decoration-none pizza-item" href={`pizza/${item.id}`}>
+        <a className="border bg-white m-3 d-flex flex-column align-items-center text-dark text-decoration-none pizza-item"
+            href={`pizza/${item.id}`} onClick={e => {e.preventDefault(); showDetails(item.id)}}>
             <img src={`img/${item.img}`} width="240" height="240" alt={item.name} className="m-3"/>
 
             <div>{item.name}</div>

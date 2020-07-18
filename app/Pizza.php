@@ -17,4 +17,8 @@ class Pizza extends Model
 
         return $array;
     }
+
+    public static function getDesc($id) {
+        return Self::select('desc')->where('id', $id)->first();
+    }
 }
