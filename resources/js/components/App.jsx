@@ -14,6 +14,7 @@ class App extends React.Component {
 
 		this.switchCurrency = this.switchCurrency.bind(this);
 		this.addToBasket = this.addToBasket.bind(this);
+		this.removeFromBasket = this.removeFromBasket.bind(this);
 	}
 
 	switchCurrency() {
@@ -34,6 +35,17 @@ class App extends React.Component {
 		});
 	}
 
+	removeFromBasket(item) {
+		this.setState(state => {
+			const basket = [...state.basket];
+			let basketItem = basket.find(el => el.id == item.id);
+			if (basketItem) {
+				basketItem.qnt--;
+			}
+			return {basket};
+		});
+	}
+
 	render() {
 		let price = 0, qnt = 0;
 
@@ -46,7 +58,8 @@ class App extends React.Component {
 		return (
 			<>
 				<NavBar price={price} number={qnt} currency={this.state.currency} switchCurrency={this.switchCurrency}/>
-				<ItemList items={this.props.items} currency={this.state.currency} addToBasket={this.addToBasket}/>
+				<ItemList items={this.props.items} currency={this.state.currency} basket={this.state.basket}
+					addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket}/>
 			</>
 		);
 	}

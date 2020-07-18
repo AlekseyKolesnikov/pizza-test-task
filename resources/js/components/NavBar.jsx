@@ -17,7 +17,7 @@ const NavBar = ({price, number, currency, switchCurrency}) => {
 				</div>
 				<div className="navbar-nav">
 					<div className="nav-item">
-						<button className="btn btn-outline-primary mr-3" aria-label={curStr} title="Switch Currency" onClick={switchCurrency}>
+						<button className="btn btn-outline-primary mr-3" aria-label={curStr} title="Switch Currency" onClick={e => {e.target.blur(); switchCurrency(e)}}>
 							<strong>{formatPrice(price)}</strong> <i className={`fa fa-${curStr}`} aria-hidden="true"></i>
 						</button>
 					</div>

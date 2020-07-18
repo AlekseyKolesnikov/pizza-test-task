@@ -65851,6 +65851,67 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/js/components/AddButton.jsx":
+/*!***********************************************!*\
+  !*** ./resources/js/components/AddButton.jsx ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var AddButton = function AddButton(_ref) {
+  var item = _ref.item,
+      qnt = _ref.qnt,
+      addToBasket = _ref.addToBasket,
+      removeFromBasket = _ref.removeFromBasket;
+
+  if (qnt) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "d-flex align-items-center my-3"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-primary",
+      onClick: function onClick(e) {
+        e.preventDefault();
+        e.target.blur();
+        removeFromBasket(item);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fa fa-minus",
+      "aria-hidden": "true"
+    })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "px-3"
+    }, qnt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-primary",
+      onClick: function onClick(e) {
+        e.preventDefault();
+        e.target.blur();
+        addToBasket(item);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fa fa-plus",
+      "aria-hidden": "true"
+    })));
+  } else {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-primary my-3",
+      onClick: function onClick(e) {
+        e.preventDefault();
+        e.target.blur();
+        addToBasket(item);
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "Add to Cart"));
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (AddButton);
+
+/***/ }),
+
 /***/ "./resources/js/components/App.jsx":
 /*!*****************************************!*\
   !*** ./resources/js/components/App.jsx ***!
@@ -65922,6 +65983,7 @@ var App = /*#__PURE__*/function (_React$Component) {
     };
     _this.switchCurrency = _this.switchCurrency.bind(_assertThisInitialized(_this));
     _this.addToBasket = _this.addToBasket.bind(_assertThisInitialized(_this));
+    _this.removeFromBasket = _this.removeFromBasket.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -65960,6 +66022,25 @@ var App = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "removeFromBasket",
+    value: function removeFromBasket(item) {
+      this.setState(function (state) {
+        var basket = _toConsumableArray(state.basket);
+
+        var basketItem = basket.find(function (el) {
+          return el.id == item.id;
+        });
+
+        if (basketItem) {
+          basketItem.qnt--;
+        }
+
+        return {
+          basket: basket
+        };
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -65982,7 +66063,9 @@ var App = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ItemList__WEBPACK_IMPORTED_MODULE_3__["default"], {
         items: this.props.items,
         currency: this.state.currency,
-        addToBasket: this.addToBasket
+        basket: this.state.basket,
+        addToBasket: this.addToBasket,
+        removeFromBasket: this.removeFromBasket
       }));
     }
   }]);
@@ -66011,16 +66094,20 @@ if (app) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.js");
+/* harmony import */ var _AddButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddButton */ "./resources/js/components/AddButton.jsx");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.js");
+
 
 
 
 var Item = function Item(_ref) {
   var item = _ref.item,
       currency = _ref.currency,
-      addToBasket = _ref.addToBasket;
+      qnt = _ref.qnt,
+      addToBasket = _ref.addToBasket,
+      removeFromBasket = _ref.removeFromBasket;
   var curStr = currency ? 'dollar' : 'euro';
-  var price = currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_1__["formatPrice"])(item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_1__["formatPrice"])(item.price);
+  var price = currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.price);
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "border bg-white m-3 d-flex flex-column align-items-center text-dark text-decoration-none pizza-item",
     href: "pizza/".concat(item.id)
@@ -66037,13 +66124,12 @@ var Item = function Item(_ref) {
   }, price, " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fa fa-".concat(curStr),
     "aria-hidden": "true"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    className: "btn btn-primary my-3",
-    onClick: function onClick(e) {
-      e.preventDefault();
-      addToBasket(item);
-    }
-  }, "Add to Cart")));
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddButton__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    item: item,
+    qnt: qnt,
+    addToBasket: addToBasket,
+    removeFromBasket: removeFromBasket
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Item);
@@ -66068,14 +66154,21 @@ __webpack_require__.r(__webpack_exports__);
 var ItemList = function ItemList(_ref) {
   var items = _ref.items,
       currency = _ref.currency,
-      addToBasket = _ref.addToBasket;
+      basket = _ref.basket,
+      addToBasket = _ref.addToBasket,
+      removeFromBasket = _ref.removeFromBasket;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "container mt-5 py-5 d-flex flex-wrap justify-content-around bg-greeny shadow-sm"
   }, items.map(function (item) {
+    var basketItem = basket.find(function (el) {
+      return el.id == item.id;
+    });
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Item__WEBPACK_IMPORTED_MODULE_1__["default"], {
       item: item,
       currency: currency,
+      qnt: basketItem ? basketItem.qnt : 0,
       addToBasket: addToBasket,
+      removeFromBasket: removeFromBasket,
       key: item.id
     });
   }));
@@ -66136,7 +66229,10 @@ var NavBar = function NavBar(_ref) {
     className: "btn btn-outline-primary mr-3",
     "aria-label": curStr,
     title: "Switch Currency",
-    onClick: switchCurrency
+    onClick: function onClick(e) {
+      e.target.blur();
+      switchCurrency(e);
+    }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, Object(_utils__WEBPACK_IMPORTED_MODULE_1__["formatPrice"])(price)), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fa fa-".concat(curStr),
     "aria-hidden": "true"
