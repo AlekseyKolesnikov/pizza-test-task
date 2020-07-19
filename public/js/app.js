@@ -74118,8 +74118,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _reducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./reducers */ "./resources/js/reducers/index.js");
 
 
-var initialState = {};
+var initialState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {};
 var store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers__WEBPACK_IMPORTED_MODULE_1__["default"], initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+store.subscribe(function () {
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()));
+});
 /* harmony default export */ __webpack_exports__["default"] = (store);
 
 /***/ }),
