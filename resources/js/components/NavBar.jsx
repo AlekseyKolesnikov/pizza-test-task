@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { formatPrice } from '../utils';
 
 const NavBar = ({price, number, currency, switchCurrency}) => {
@@ -12,7 +13,8 @@ const NavBar = ({price, number, currency, switchCurrency}) => {
 			<div className="collapse navbar-collapse" id="navbarSupportedContent">
 				<div className="navbar-nav mr-auto">
 					<div className="nav-item active">
-						<a className="nav-link" href="/"><h5 className="mt-1 mb-0">PiZZaS</h5></a>
+						<Link to="/" className="nav-link"><h5 className="mt-1 mb-0">PiZZaS</h5></Link>
+						{/* <a className="nav-link" href="/"><h5 className="mt-1 mb-0">PiZZaS</h5></a> */}
 					</div>
 				</div>
 				<div className="navbar-nav">
@@ -22,14 +24,14 @@ const NavBar = ({price, number, currency, switchCurrency}) => {
 						</button>
 					</div>
 					<div className="nav-item">
-						<button className="btn btn-outline-primary" aria-label="shopping cart" title="Shopping Cart">
+						<Link to="/basket" className="btn btn-outline-primary" aria-label="shopping cart" title="Shopping Cart">
 							<i className="fa fa-shopping-cart" aria-hidden="true"></i>
 							{
 								number
 								? <span className="ml-2 rounded border border-primary pl-1 pr-1">{number}</span>
 								: null
 							}
-						</button>
+						</Link>
 					</div>
 				</div>
 			</div>

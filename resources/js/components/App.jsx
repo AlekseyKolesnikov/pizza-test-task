@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import NavBar from './NavBar';
 import ItemList from './ItemList';
+import Basket from './Basket';
 import ModalDetails from './ModalDetails';
 
 // TODO: Basket, Redux
@@ -12,7 +14,7 @@ class App extends React.Component {
 
 		this.state = {
 			currency: false,
-			basket: [],
+			basket: [{id: 1, qnt: 1}, {id: 5, qnt: 3}, {id: 9, qnt: 2}],
 			showDetails: 0,
 		};
 
@@ -72,8 +74,16 @@ class App extends React.Component {
 		return (
 			<>
 				<NavBar price={price} number={qnt} currency={this.state.currency} switchCurrency={this.switchCurrency}/>
-				<ItemList items={this.props.items} currency={this.state.currency} basket={this.state.basket}
-					addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket} showDetails={this.showDetails}/>
+				<Switch>
+					<Route path="/" component={() =>
+						<ItemList items={this.props.items} currency={this.state.currency} basket={this.state.basket}
+							addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket} showDetails={this.showDetails}/>
+					} exact />
+					<Route path="/basket" component={() =>
+						<Basket items={this.props.items} currency={this.state.currency} basket={this.state.basket}
+							addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket} showDetails={this.showDetails}/>
+					} exact />
+				</Switch>
 
 				{this.state.showDetails
 					? <ModalDetails id={this.state.showDetails} items={this.props.items} basket={this.state.basket} currency={this.state.currency}
@@ -86,5 +96,9 @@ class App extends React.Component {
 
 const app = document.getElementById('app');
 if (app) {
-	ReactDOM.render(<App items={JSON.parse(app.dataset.items)}/>, app);
+	ReactDOM.render(
+		<BrowserRouter basename={app.dataset.root}>
+			<App items={JSON.parse(app.dataset.items)}/>
+		</BrowserRouter>, app
+	);
 }

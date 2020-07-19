@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <div id="app" data-items="{{ $items }}"></div>
+    <div id="app" data-items="{{ $items }}" data-root="{{ $root }}"></div>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 

@@ -13,6 +13,7 @@ class PizzaController extends Controller
     public function index() {
         return view('index', [
             'items' => json_encode(Pizza::getItems(), JSON_UNESCAPED_UNICODE),
+            'root' => env('ROOT', ''),
         ]);
     }
 
