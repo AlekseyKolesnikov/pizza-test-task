@@ -11,7 +11,7 @@ const Item = ({item, currency, qnt, addToBasket, removeFromBasket, showDetails})
             href={`pizza/${item.id}`} onClick={e => {e.preventDefault(); showDetails(item.id)}}>
             <img src={`img/${item.img}`} width="240" height="240" alt={item.name} className="m-3"/>
 
-            <div>{item.name}</div>
+            <h5>{item.name}</h5>
 
             <div className="d-flex justify-content-between align-items-center px-3 w-100">
                 <strong className="text-primary">{price} <i className={`fa fa-${curStr}`} aria-hidden="true"></i></strong>

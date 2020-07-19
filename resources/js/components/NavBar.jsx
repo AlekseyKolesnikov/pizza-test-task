@@ -14,7 +14,6 @@ const NavBar = ({price, number, currency, switchCurrency}) => {
 				<div className="navbar-nav mr-auto">
 					<div className="nav-item active">
 						<Link to="/" className="nav-link"><h5 className="mt-1 mb-0">PiZZaS</h5></Link>
-						{/* <a className="nav-link" href="/"><h5 className="mt-1 mb-0">PiZZaS</h5></a> */}
 					</div>
 				</div>
 				<div className="navbar-nav">

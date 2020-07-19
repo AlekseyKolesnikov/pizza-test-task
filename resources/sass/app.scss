@@ -42,4 +42,8 @@
 .w-240 {
     max-width: 240px;
     max-height: 240px;
+    @include media-breakpoint-down(xs) {
+        max-width: 200px;
+        max-height: 200px;
+    }
 }

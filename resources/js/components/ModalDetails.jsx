@@ -1,6 +1,6 @@
 import React from 'react';
 import AddButton from './AddButton';
-import { formatPrice } from '../utils';
+import { formatPrice, getDesc } from '../utils';
 
 class ModalDetails extends React.Component {
     constructor (props) {
@@ -16,8 +16,7 @@ class ModalDetails extends React.Component {
     }
 
     componentDidMount() {
-        axios
-            .get(`api/desc/${this.props.id}`, {withCredentials: true})
+        getDesc(this.props.id)
             .then(res => {
                 this.setState({desc: res.data.desc});
             })

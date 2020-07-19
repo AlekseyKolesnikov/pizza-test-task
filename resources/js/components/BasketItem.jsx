@@ -1,26 +1,48 @@
 import React from 'react';
 import AddButton from './AddButton';
-import { formatPrice } from '../utils';
+import { formatPrice, getDesc } from '../utils';
 
-const Item = ({item, currency, qnt, addToBasket, removeFromBasket, showDetails}) => {
-	const curStr = (currency ? 'dollar' : 'euro')
-	const price = (currency ? formatPrice(item.usd) : formatPrice(item.price))
+class Item extends React.Component {
+    constructor (props) {
+        super(props);
 
-    return (
-        <a className="border bg-white m-3 d-flex text-dark text-decoration-none pizza-item w-100"
-            href={`pizza/${item.id}`} onClick={e => {e.preventDefault(); showDetails(item.id)}}>
-            <img src={`img/${item.img}`} width="240" height="240" alt={item.name} className="m-3 w-240"/>
+        this.state = {
+            desc: 'Loading description...',
+        };
 
-            <div className="d-flex flex-column justify-content-between m-3 mt-4 w-100">
-                <div>{item.name}</div>
+        this.curStr = (props.currency ? 'dollar' : 'euro')
+        this.price = (props.currency ? formatPrice(props.item.usd) : formatPrice(props.item.price))
+    }
 
-                <div className="d-flex justify-content-between align-items-center px-3 w-100">
-                    <strong className="text-primary">{price} <i className={`fa fa-${curStr}`} aria-hidden="true"></i></strong>
-                    <AddButton item={item} qnt={qnt} addToBasket={addToBasket} removeFromBasket={removeFromBasket} />
+    componentDidMount() {
+        getDesc(this.props.item.id)
+            .then(res => {
+                this.setState({desc: res.data.desc});
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    render() {
+        const item = this.props.item;
+        return (
+            <a className="border bg-white mx-1 my-2 m-sm-3 d-flex text-dark text-decoration-none pizza-item w-100"
+                href={`pizza/${item.id}`} onClick={e => {e.preventDefault(); this.props.showDetails(item.id)}}>
+                <img src={`img/${item.img}`} width="240" height="240" alt={item.name} className="m-3 w-240"/>
+    
+                <div className="d-flex flex-column justify-content-between align-items-center align-items-md-stretch m-3 mt-4 mr-4 w-100">
+                    <h5>{item.name}</h5>
+                    <p className="d-none d-md-block">{this.state.desc}</p>
+    
+                    <div className="d-flex justify-content-between align-items-center flex-column flex-md-row w-100">
+                        <strong className="text-primary">{this.price} <i className={`fa fa-${this.curStr}`} aria-hidden="true"></i></strong>
+                        <AddButton item={item} qnt={this.props.qnt} addToBasket={this.props.addToBasket} removeFromBasket={this.props.removeFromBasket} />
+                    </div>
                 </div>
-            </div>
-        </a>
-    );
+            </a>
+        );
+    }
 }
 
 export default Item;

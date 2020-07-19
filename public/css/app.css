@@ -10967,3 +10967,10 @@ a.text-dark:focus {
   max-height: 240px;
 }
 
+@media (max-width: 575.98px) {
+  .w-240 {
+    max-width: 200px;
+    max-height: 200px;
+  }
+}
+
