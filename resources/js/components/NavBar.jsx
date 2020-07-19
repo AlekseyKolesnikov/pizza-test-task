@@ -4,7 +4,7 @@ import { formatPrice } from '../utils';
 const NavBar = ({price, number, currency, switchCurrency}) => {
 	const curStr = (currency ? 'dollar' : 'euro')
 	return (
-		<nav className="navbar fixed-top navbar-expand-lg navbar-light bg-aqua shadow-sm border-bottom">
+		<nav className="navbar fixed-top navbar-expand navbar-light bg-aqua shadow-sm border-bottom">
 			<a className="navbar-brand" href="/">
 				<img src="img/logo.png" width="40" height="40" alt="Pizzas"/>
 			</a>

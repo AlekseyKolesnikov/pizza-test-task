@@ -4,7 +4,7 @@ import NavBar from './NavBar';
 import ItemList from './ItemList';
 import ModalDetails from './ModalDetails';
 
-// TODO: NavBar mobile, ModalDetails mobile, Basket, Redux
+// TODO: Basket, Redux
 
 class App extends React.Component {
 	constructor (props) {

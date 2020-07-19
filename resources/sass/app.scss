@@ -8,7 +8,7 @@
 @import '~bootstrap/scss/bootstrap';
 
 .bg-aqua {
-    background-color: #e3f2fd;
+    background-color: #f4f8fc;
 }
 
 .bg-greeny {
@@ -32,4 +32,9 @@
 
 .w-340 {
     min-width: 340px;
+    @include media-breakpoint-down(md) {
+        min-width: auto;
+        max-width: 240px;
+        max-height: 240px;
+    }
 }

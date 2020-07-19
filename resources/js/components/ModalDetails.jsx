@@ -11,7 +11,7 @@ class ModalDetails extends React.Component {
         this.price = (props.currency ? formatPrice(this.item.usd) : formatPrice(this.item.price))
 
         this.state = {
-            desc: '...',
+            desc: 'Loading description...',
         };
     }
 
@@ -39,7 +39,7 @@ class ModalDetails extends React.Component {
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div className="modal-body d-flex">
+                        <div className="modal-body d-flex flex-wrap flex-sm-nowrap">
                             <img src={`img/${this.item.img}`} width="340" height="340" alt={this.item.name} className="w-340"/>
                             <div className="m-3">{this.state.desc}</div>
                         </div>

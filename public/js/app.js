@@ -65969,7 +65969,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
- // TODO: NavBar mobile, ModalDetails mobile, Basket, Redux
+ // TODO: Basket, Redux
 
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
@@ -66272,7 +66272,7 @@ var ModalDetails = /*#__PURE__*/function (_React$Component) {
     _this.curStr = props.currency ? 'dollar' : 'euro';
     _this.price = props.currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(_this.item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(_this.item.price);
     _this.state = {
-      desc: '...'
+      desc: 'Loading description...'
     };
     return _this;
   }
@@ -66325,7 +66325,7 @@ var ModalDetails = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         "aria-hidden": "true"
       }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "modal-body d-flex"
+        className: "modal-body d-flex flex-wrap flex-sm-nowrap"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "img/".concat(this.item.img),
         width: "340",
@@ -66379,7 +66379,7 @@ var NavBar = function NavBar(_ref) {
       switchCurrency = _ref.switchCurrency;
   var curStr = currency ? 'dollar' : 'euro';
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-    className: "navbar fixed-top navbar-expand-lg navbar-light bg-aqua shadow-sm border-bottom"
+    className: "navbar fixed-top navbar-expand navbar-light bg-aqua shadow-sm border-bottom"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "navbar-brand",
     href: "/"

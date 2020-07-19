@@ -10929,7 +10929,7 @@ a.text-dark:focus {
 }
 
 .bg-aqua {
-  background-color: #e3f2fd;
+  background-color: #f4f8fc;
 }
 
 .bg-greeny {
@@ -10952,5 +10952,13 @@ a.text-dark:focus {
 
 .w-340 {
   min-width: 340px;
+}
+
+@media (max-width: 991.98px) {
+  .w-340 {
+    min-width: auto;
+    max-width: 240px;
+    max-height: 240px;
+  }
 }
 
