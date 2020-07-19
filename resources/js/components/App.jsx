@@ -6,7 +6,7 @@ import ItemList from './ItemList';
 import Basket from './Basket';
 import ModalDetails from './ModalDetails';
 
-// TODO: Basket, Redux
+// TODO: Redux
 
 class App extends React.Component {
 	constructor (props) {
@@ -80,7 +80,7 @@ class App extends React.Component {
 							addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket} showDetails={this.showDetails}/>
 					} exact />
 					<Route path="/basket" component={() =>
-						<Basket items={this.props.items} currency={this.state.currency} basket={this.state.basket}
+						<Basket items={this.props.items} currency={this.state.currency} basket={this.state.basket} price={price} zones={this.props.zones}
 							addToBasket={this.addToBasket} removeFromBasket={this.removeFromBasket} showDetails={this.showDetails}/>
 					} exact />
 				</Switch>
@@ -98,7 +98,7 @@ const app = document.getElementById('app');
 if (app) {
 	ReactDOM.render(
 		<BrowserRouter basename={app.dataset.root}>
-			<App items={JSON.parse(app.dataset.items)}/>
+			<App items={JSON.parse(app.dataset.items)} zones={JSON.parse(app.dataset.zones)}/>
 		</BrowserRouter>, app
 	);
 }

@@ -14,6 +14,7 @@ class PizzaController extends Controller
         return view('index', [
             'items' => json_encode(Pizza::getItems(), JSON_UNESCAPED_UNICODE),
             'root' => env('ROOT', ''),
+            'zones' => json_encode(Pizza::getZonesTarif()),
         ]);
     }
 

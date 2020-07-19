@@ -33,7 +33,10 @@ class Item extends React.Component {
     
                 <div className="d-flex flex-column justify-content-between align-items-center align-items-md-stretch m-3 mt-4 mr-4 w-100">
                     <h5>{item.name}</h5>
-                    <p className="d-none d-md-block">{this.state.desc}</p>
+                    <p className="d-none d-md-block truncate-overflow">
+                        {this.state.desc}
+                        <img src="img/hider.png" height="16"/>
+                    </p>
     
                     <div className="d-flex justify-content-between align-items-center flex-column flex-md-row w-100">
                         <strong className="text-primary">{this.price} <i className={`fa fa-${this.curStr}`} aria-hidden="true"></i></strong>

@@ -6,9 +6,9 @@ const NavBar = ({price, number, currency, switchCurrency}) => {
 	const curStr = (currency ? 'dollar' : 'euro')
 	return (
 		<nav className="navbar fixed-top navbar-expand navbar-light bg-aqua shadow-sm border-bottom">
-			<a className="navbar-brand" href="/">
+			<Link className="navbar-brand" to="/">
 				<img src="img/logo.png" width="40" height="40" alt="Pizzas"/>
-			</a>
+			</Link>
 
 			<div className="collapse navbar-collapse" id="navbarSupportedContent">
 				<div className="navbar-nav mr-auto">
