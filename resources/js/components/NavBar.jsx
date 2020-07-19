@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatPrice } from '../utils';
+import { dispatchSwitchCurrency } from '../actions/currencyActions';
 
-const NavBar = ({price, number, currency, switchCurrency}) => {
-	const curStr = (currency ? 'dollar' : 'euro')
+const NavBar = ({price, number, curStr}) => {
 	return (
 		<nav className="navbar fixed-top navbar-expand navbar-light bg-aqua shadow-sm border-bottom">
 			<Link className="navbar-brand" to="/">
@@ -18,7 +18,8 @@ const NavBar = ({price, number, currency, switchCurrency}) => {
 				</div>
 				<div className="navbar-nav">
 					<div className="nav-item">
-						<button className="btn btn-outline-primary mr-3" aria-label={curStr} title="Switch Currency" onClick={e => {e.target.blur(); switchCurrency(e)}}>
+						<button className="btn btn-outline-primary mr-3" aria-label={curStr} title="Switch Currency"
+							onClick={event => {event.target.blur(); dispatchSwitchCurrency();}}>
 							<strong>{formatPrice(price)}</strong> <i className={`fa fa-${curStr}`} aria-hidden="true"></i>
 						</button>
 					</div>

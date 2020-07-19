@@ -1,6 +1,6 @@
 import React from 'react';
 import AddButton from './AddButton';
-import { formatPrice, getDesc } from '../utils';
+import { formatPrice, getDesc, curStr } from '../utils';
 
 class Item extends React.Component {
     constructor (props) {
@@ -10,8 +10,8 @@ class Item extends React.Component {
             desc: 'Loading description...',
         };
 
-        this.curStr = (props.currency ? 'dollar' : 'euro')
-        this.price = (props.currency ? formatPrice(props.item.usd) : formatPrice(props.item.price))
+        this.curStr = curStr(props.currency);
+        this.price = (props.currency ? formatPrice(props.item.usd) : formatPrice(props.item.price));
     }
 
     componentDidMount() {
@@ -40,7 +40,7 @@ class Item extends React.Component {
     
                     <div className="d-flex justify-content-between align-items-center flex-column flex-md-row w-100">
                         <strong className="text-primary">{this.price} <i className={`fa fa-${this.curStr}`} aria-hidden="true"></i></strong>
-                        <AddButton item={item} qnt={this.props.qnt} addToBasket={this.props.addToBasket} removeFromBasket={this.props.removeFromBasket} />
+                        <AddButton item={item} qnt={this.props.qnt} />
                     </div>
                 </div>
             </a>

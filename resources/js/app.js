@@ -12,4 +12,18 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/App.jsx');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './store';
+import App from './components/App.jsx';
+
+const app = document.getElementById('app');
+
+if (app) {
+	ReactDOM.render(
+        <Provider store={store}>
+            <App items={JSON.parse(app.dataset.items)} zones={JSON.parse(app.dataset.zones)} root={app.dataset.root}/>
+		</Provider>, app
+	);
+}

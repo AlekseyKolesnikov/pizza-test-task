@@ -1,9 +1,8 @@
 import React from 'react';
 import AddButton from './AddButton';
-import { formatPrice } from '../utils';
+import { formatPrice, curStr } from '../utils';
 
-const Item = ({item, currency, qnt, addToBasket, removeFromBasket, showDetails}) => {
-	const curStr = (currency ? 'dollar' : 'euro')
+const Item = ({item, currency, qnt, showDetails}) => {
 	const price = (currency ? formatPrice(item.usd) : formatPrice(item.price))
 
     return (
@@ -14,8 +13,8 @@ const Item = ({item, currency, qnt, addToBasket, removeFromBasket, showDetails})
             <h5>{item.name}</h5>
 
             <div className="d-flex justify-content-between align-items-center px-3 w-100">
-                <strong className="text-primary">{price} <i className={`fa fa-${curStr}`} aria-hidden="true"></i></strong>
-                <AddButton item={item} qnt={qnt} addToBasket={addToBasket} removeFromBasket={removeFromBasket} />
+                <strong className="text-primary">{price} <i className={`fa fa-${curStr(currency)}`} aria-hidden="true"></i></strong>
+                <AddButton item={item} qnt={qnt} />
             </div>
         </a>
     );

@@ -1,14 +1,14 @@
 import React from 'react';
 import AddButton from './AddButton';
-import { formatPrice, getDesc } from '../utils';
+import { formatPrice, getDesc, curStr } from '../utils';
 
 class ModalDetails extends React.Component {
     constructor (props) {
         super(props);
         this.item = props.items.find(el => el.id == props.id);
 
-        this.curStr = (props.currency ? 'dollar' : 'euro')
-        this.price = (props.currency ? formatPrice(this.item.usd) : formatPrice(this.item.price))
+        this.curStr = curStr(props.currency);
+        this.price = (props.currency ? formatPrice(this.item.usd) : formatPrice(this.item.price));
 
         this.state = {
             desc: 'Loading description...',
@@ -44,8 +44,7 @@ class ModalDetails extends React.Component {
                         </div>
                         <div className="modal-footer justify-content-between">
                             <strong className="text-primary">{this.price} <i className={`fa fa-${this.curStr}`} aria-hidden="true"></i></strong>
-                            <AddButton item={this.item} qnt={basketItem ? basketItem.qnt : 0}
-                                addToBasket={this.props.addToBasket} removeFromBasket={this.props.removeFromBasket} />
+                            <AddButton item={this.item} qnt={basketItem ? basketItem.qnt : 0} />
                         </div>
                     </div>
                 </div>

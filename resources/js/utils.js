@@ -5,6 +5,8 @@ export const formatPrice = (price) => {
     return result.slice(0, -2) + ',' + result.slice(-2);
 }
 
+export const curStr = currency => currency ? 'dollar' : 'euro';
+
 const descriptions = [];
 
 export const getDesc = async (id) => {
