@@ -1,28 +1,35 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { switchZoneAction } from '../actions/zoneActions';
+import { switchZoneAction, changeAddressAction, changeNameAction, changePhoneAction } from '../actions/orderActions';
 import { formatPrice, curStr } from '../utils';
 
-const ProceedOrder = ({currency, price, zones, zone, switchZoneAction}) => {
+const ProceedOrder = ({currency, price, zones, order, switchZoneAction, changeAddressAction, changeNameAction, changePhoneAction}) => {
     const zoneIdx = (currency ? 'zones_usd' : 'zones');
-    const total = price + zones[zoneIdx][zone];
+    const total = price + zones[zoneIdx][order.zone];
 
     return (
-        <form className="border bg-white mx-1 my-2 m-sm-3 d-flex w-100">
+        <form className="border bg-top-panel mx-1 my-2 m-sm-3 d-flex w-100">
             <div className="w-75 m-4">
+                <div className="input-group mb-3">
+                    <input type="text" placeholder="Name" aria-label="Name" className="form-control"
+                        value={order.name} onChange={e => changeNameAction(e.target.value)}/>
+                    <input type="tel" placeholder="Phone" aria-label="Phone" className="form-control"
+                        value={order.phone} onChange={e => changePhoneAction(e.target.value)}/>
+                </div>
                 <div className="input-group mb-3">
                     <div className="input-group-prepend">
                         <label className="input-group-text" htmlFor="zone">Delivery</label>
                     </div>
-                    <select className="custom-select" id="zone" value={zone} onChange={e => switchZoneAction(e.target.value)}>
+                    <select className="custom-select" id="zone" value={order.zone} onChange={e => switchZoneAction(e.target.value)}>
                         <option value="0">Zone #1</option>
                         <option value="1">Zone #2</option>
                         <option value="2">Zone #3</option>
                     </select>
                 </div>
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Address" aria-label="Username" aria-describedby="address"/>
+                    <input type="text" className="form-control" placeholder="Address" aria-label="Address" aria-describedby="address"
+                        value={order.address} onChange={e => changeAddressAction(e.target.value)}/>
                 </div>
             </div>
 
@@ -38,13 +45,16 @@ const ProceedOrder = ({currency, price, zones, zone, switchZoneAction}) => {
 
 const mapStateToProps = (state) => {
 	return {
-		zone: state.zone,
+		order: state.order,
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		switchZoneAction: bindActionCreators(switchZoneAction, dispatch),
+		changeAddressAction: bindActionCreators(changeAddressAction, dispatch),
+		changeNameAction: bindActionCreators(changeNameAction, dispatch),
+		changePhoneAction: bindActionCreators(changePhoneAction, dispatch),
 	}
 };
 

@@ -2,3 +2,6 @@ export const ADD_TO_BASKET = 'ADD_TO_BASKET';
 export const REMOVE_FROM_BASKET = 'REMOVE_FROM_BASKET';
 export const SWITCH_CURRENCY = 'SWITCH_CURRENCY';
 export const SWITCH_ZONE = 'SWITCH_ZONE';
+export const CHANGE_ADDRESS = 'CHANGE_ADDRESS';
+export const CHANGE_NAME = 'CHANGE_NAME';
+export const CHANGE_PHONE = 'CHANGE_PHONE';

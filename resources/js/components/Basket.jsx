@@ -4,7 +4,7 @@ import ProceedOrder from './ProceedOrder';
 
 const Basket = ({items, currency, price, basket, showDetails, zones}) => {
     return (
-        <div className="container mt-5 py-5 pr-4 pr-sm-5 d-flex flex-column bg-greeny shadow-sm">
+        <div className="container mt-5 py-5 pr-4 pr-sm-5 d-flex flex-column bg-center-panel shadow-sm">
             <ProceedOrder price={price} currency={currency} zones={zones}/>
 
             {basket.map(basketItem => {

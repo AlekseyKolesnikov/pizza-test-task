@@ -5,7 +5,7 @@ import { dispatchSwitchCurrency } from '../actions/currencyActions';
 
 const NavBar = ({price, number, curStr}) => {
 	return (
-		<nav className="navbar fixed-top navbar-expand navbar-light bg-aqua shadow-sm border-bottom">
+		<nav className="navbar fixed-top navbar-expand navbar-light bg-top-panel shadow-sm border-bottom">
 			<Link className="navbar-brand" to="/">
 				<img src="img/logo.png" width="40" height="40" alt="Pizzas"/>
 			</Link>
@@ -13,7 +13,7 @@ const NavBar = ({price, number, curStr}) => {
 			<div className="collapse navbar-collapse" id="navbarSupportedContent">
 				<div className="navbar-nav mr-auto">
 					<div className="nav-item active">
-						<Link to="/" className="nav-link"><h5 className="mt-1 mb-0">PiZZaS</h5></Link>
+						<Link to="/" className="nav-link"><h5 className="mt-1 mb-0">PiZZa's menu</h5></Link>
 					</div>
 				</div>
 				<div className="navbar-nav">

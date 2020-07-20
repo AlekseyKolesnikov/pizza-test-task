@@ -73022,11 +73022,53 @@ var dispatchSwitchCurrency = function dispatchSwitchCurrency() {
 
 /***/ }),
 
+/***/ "./resources/js/actions/orderActions.js":
+/*!**********************************************!*\
+  !*** ./resources/js/actions/orderActions.js ***!
+  \**********************************************/
+/*! exports provided: switchZoneAction, changeAddressAction, changeNameAction, changePhoneAction */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "switchZoneAction", function() { return switchZoneAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changeAddressAction", function() { return changeAddressAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changeNameAction", function() { return changeNameAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changePhoneAction", function() { return changePhoneAction; });
+/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./resources/js/actions/types.js");
+
+var switchZoneAction = function switchZoneAction(zone) {
+  return {
+    type: _types__WEBPACK_IMPORTED_MODULE_0__["SWITCH_ZONE"],
+    payload: zone
+  };
+};
+var changeAddressAction = function changeAddressAction(address) {
+  return {
+    type: _types__WEBPACK_IMPORTED_MODULE_0__["CHANGE_ADDRESS"],
+    payload: address
+  };
+};
+var changeNameAction = function changeNameAction(name) {
+  return {
+    type: _types__WEBPACK_IMPORTED_MODULE_0__["CHANGE_NAME"],
+    payload: name
+  };
+};
+var changePhoneAction = function changePhoneAction(phone) {
+  return {
+    type: _types__WEBPACK_IMPORTED_MODULE_0__["CHANGE_PHONE"],
+    payload: phone
+  };
+};
+
+/***/ }),
+
 /***/ "./resources/js/actions/types.js":
 /*!***************************************!*\
   !*** ./resources/js/actions/types.js ***!
   \***************************************/
-/*! exports provided: ADD_TO_BASKET, REMOVE_FROM_BASKET, SWITCH_CURRENCY, SWITCH_ZONE */
+/*! exports provided: ADD_TO_BASKET, REMOVE_FROM_BASKET, SWITCH_CURRENCY, SWITCH_ZONE, CHANGE_ADDRESS, CHANGE_NAME, CHANGE_PHONE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73035,31 +73077,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_FROM_BASKET", function() { return REMOVE_FROM_BASKET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SWITCH_CURRENCY", function() { return SWITCH_CURRENCY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SWITCH_ZONE", function() { return SWITCH_ZONE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CHANGE_ADDRESS", function() { return CHANGE_ADDRESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CHANGE_NAME", function() { return CHANGE_NAME; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CHANGE_PHONE", function() { return CHANGE_PHONE; });
 var ADD_TO_BASKET = 'ADD_TO_BASKET';
 var REMOVE_FROM_BASKET = 'REMOVE_FROM_BASKET';
 var SWITCH_CURRENCY = 'SWITCH_CURRENCY';
 var SWITCH_ZONE = 'SWITCH_ZONE';
-
-/***/ }),
-
-/***/ "./resources/js/actions/zoneActions.js":
-/*!*********************************************!*\
-  !*** ./resources/js/actions/zoneActions.js ***!
-  \*********************************************/
-/*! exports provided: switchZoneAction */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "switchZoneAction", function() { return switchZoneAction; });
-/* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./resources/js/actions/types.js");
-
-var switchZoneAction = function switchZoneAction(zone) {
-  return {
-    type: _types__WEBPACK_IMPORTED_MODULE_0__["SWITCH_ZONE"],
-    zone: zone
-  };
-};
+var CHANGE_ADDRESS = 'CHANGE_ADDRESS';
+var CHANGE_NAME = 'CHANGE_NAME';
+var CHANGE_PHONE = 'CHANGE_PHONE';
 
 /***/ }),
 
@@ -73401,7 +73428,7 @@ var Basket = function Basket(_ref) {
       showDetails = _ref.showDetails,
       zones = _ref.zones;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "container mt-5 py-5 pr-4 pr-sm-5 d-flex flex-column bg-greeny shadow-sm"
+    className: "container mt-5 py-5 pr-4 pr-sm-5 d-flex flex-column bg-center-panel shadow-sm"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProceedOrder__WEBPACK_IMPORTED_MODULE_2__["default"], {
     price: price,
     currency: currency,
@@ -73618,7 +73645,7 @@ var ItemList = function ItemList(_ref) {
       basket = _ref.basket,
       showDetails = _ref.showDetails;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "container mt-5 py-5 d-flex flex-wrap justify-content-around bg-greeny shadow-sm"
+    className: "container mt-5 py-5 d-flex flex-wrap justify-content-around bg-center-panel shadow-sm"
   }, items.map(function (item) {
     var basketItem = basket.find(function (el) {
       return el.id == item.id;
@@ -73798,7 +73825,7 @@ var NavBar = function NavBar(_ref) {
       number = _ref.number,
       curStr = _ref.curStr;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
-    className: "navbar fixed-top navbar-expand navbar-light bg-aqua shadow-sm border-bottom"
+    className: "navbar fixed-top navbar-expand navbar-light bg-top-panel shadow-sm border-bottom"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     className: "navbar-brand",
     to: "/"
@@ -73819,7 +73846,7 @@ var NavBar = function NavBar(_ref) {
     className: "nav-link"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
     className: "mt-1 mb-0"
-  }, "PiZZaS")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "PiZZa's menu")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "navbar-nav"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "nav-item"
@@ -73866,7 +73893,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions_zoneActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/zoneActions */ "./resources/js/actions/zoneActions.js");
+/* harmony import */ var _actions_orderActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/orderActions */ "./resources/js/actions/orderActions.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.js");
 
 
@@ -73878,15 +73905,38 @@ var ProceedOrder = function ProceedOrder(_ref) {
   var currency = _ref.currency,
       price = _ref.price,
       zones = _ref.zones,
-      zone = _ref.zone,
-      switchZoneAction = _ref.switchZoneAction;
+      order = _ref.order,
+      switchZoneAction = _ref.switchZoneAction,
+      changeAddressAction = _ref.changeAddressAction,
+      changeNameAction = _ref.changeNameAction,
+      changePhoneAction = _ref.changePhoneAction;
   var zoneIdx = currency ? 'zones_usd' : 'zones';
-  var total = price + zones[zoneIdx][zone];
+  var total = price + zones[zoneIdx][order.zone];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    className: "border bg-white mx-1 my-2 m-sm-3 d-flex w-100"
+    className: "border bg-top-panel mx-1 my-2 m-sm-3 d-flex w-100"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-75 m-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "input-group mb-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    placeholder: "Name",
+    "aria-label": "Name",
+    className: "form-control",
+    value: order.name,
+    onChange: function onChange(e) {
+      return changeNameAction(e.target.value);
+    }
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "tel",
+    placeholder: "Phone",
+    "aria-label": "Phone",
+    className: "form-control",
+    value: order.phone,
+    onChange: function onChange(e) {
+      return changePhoneAction(e.target.value);
+    }
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "input-group mb-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "input-group-prepend"
@@ -73896,7 +73946,7 @@ var ProceedOrder = function ProceedOrder(_ref) {
   }, "Delivery")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     className: "custom-select",
     id: "zone",
-    value: zone,
+    value: order.zone,
     onChange: function onChange(e) {
       return switchZoneAction(e.target.value);
     }
@@ -73912,8 +73962,12 @@ var ProceedOrder = function ProceedOrder(_ref) {
     type: "text",
     className: "form-control",
     placeholder: "Address",
-    "aria-label": "Username",
-    "aria-describedby": "address"
+    "aria-label": "Address",
+    "aria-describedby": "address",
+    value: order.address,
+    onChange: function onChange(e) {
+      return changeAddressAction(e.target.value);
+    }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-25 m-4 d-flex flex-column align-items-center justify-content-between"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
@@ -73934,13 +73988,16 @@ var ProceedOrder = function ProceedOrder(_ref) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    zone: state.zone
+    order: state.order
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    switchZoneAction: Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(_actions_zoneActions__WEBPACK_IMPORTED_MODULE_3__["switchZoneAction"], dispatch)
+    switchZoneAction: Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(_actions_orderActions__WEBPACK_IMPORTED_MODULE_3__["switchZoneAction"], dispatch),
+    changeAddressAction: Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(_actions_orderActions__WEBPACK_IMPORTED_MODULE_3__["changeAddressAction"], dispatch),
+    changeNameAction: Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(_actions_orderActions__WEBPACK_IMPORTED_MODULE_3__["changeNameAction"], dispatch),
+    changePhoneAction: Object(redux__WEBPACK_IMPORTED_MODULE_1__["bindActionCreators"])(_actions_orderActions__WEBPACK_IMPORTED_MODULE_3__["changePhoneAction"], dispatch)
   };
 };
 
@@ -74063,7 +74120,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _basketReducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./basketReducer */ "./resources/js/reducers/basketReducer.js");
 /* harmony import */ var _currencyReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./currencyReducer */ "./resources/js/reducers/currencyReducer.js");
-/* harmony import */ var _zoneReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./zoneReducer */ "./resources/js/reducers/zoneReducer.js");
+/* harmony import */ var _orderReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./orderReducer */ "./resources/js/reducers/orderReducer.js");
 
 
 
@@ -74071,23 +74128,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   basket: _basketReducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   currency: _currencyReducer__WEBPACK_IMPORTED_MODULE_2__["default"],
-  zone: _zoneReducer__WEBPACK_IMPORTED_MODULE_3__["default"]
+  order: _orderReducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 }));
 
 /***/ }),
 
-/***/ "./resources/js/reducers/zoneReducer.js":
-/*!**********************************************!*\
-  !*** ./resources/js/reducers/zoneReducer.js ***!
-  \**********************************************/
+/***/ "./resources/js/reducers/orderReducer.js":
+/*!***********************************************!*\
+  !*** ./resources/js/reducers/orderReducer.js ***!
+  \***********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/types */ "./resources/js/actions/types.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-var initialState = 0;
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var initialState = {
+  zone: 0,
+  address: '',
+  name: '',
+  phone: ''
+};
 
 var reducer = function reducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -74095,7 +74163,24 @@ var reducer = function reducer() {
 
   switch (action.type) {
     case _actions_types__WEBPACK_IMPORTED_MODULE_0__["SWITCH_ZONE"]:
-      return action.zone;
+      return _objectSpread(_objectSpread({}, state), {}, {
+        zone: action.payload
+      });
+
+    case _actions_types__WEBPACK_IMPORTED_MODULE_0__["CHANGE_ADDRESS"]:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        address: action.payload
+      });
+
+    case _actions_types__WEBPACK_IMPORTED_MODULE_0__["CHANGE_NAME"]:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        name: action.payload
+      });
+
+    case _actions_types__WEBPACK_IMPORTED_MODULE_0__["CHANGE_PHONE"]:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        phone: action.payload
+      });
   }
 
   return state;

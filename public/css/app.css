@@ -10928,12 +10928,12 @@ a.text-dark:focus {
   }
 }
 
-.bg-aqua {
-  background-color: #f4f8fc;
+.bg-top-panel {
+  background-color: #fafaf4;
 }
 
-.bg-greeny {
-  background-color: #fafcf8;
+.bg-center-panel {
+  background-color: #f4f4f2;
 }
 
 .pizza-item {
