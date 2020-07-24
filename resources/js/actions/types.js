@@ -1,5 +1,6 @@
 export const ADD_TO_BASKET = 'ADD_TO_BASKET';
 export const REMOVE_FROM_BASKET = 'REMOVE_FROM_BASKET';
+export const CLEAR_BASKET = 'CLEAR_BASKET';
 export const SWITCH_CURRENCY = 'SWITCH_CURRENCY';
 export const SWITCH_ZONE = 'SWITCH_ZONE';
 export const CHANGE_ADDRESS = 'CHANGE_ADDRESS';

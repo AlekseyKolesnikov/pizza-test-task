@@ -7,7 +7,7 @@ const Item = ({item, currency, qnt, showDetails}) => {
 
     return (
         <a className="border bg-white m-3 d-flex flex-column align-items-center text-dark text-decoration-none pizza-item"
-            href={`pizza/${item.id}`} onClick={e => {e.preventDefault(); showDetails(item.id)}}>
+            href={`pizza/${item.id}`} onClick={event => {event.preventDefault(); showDetails(item.id)}}>
             <img src={`img/${item.img}`} width="240" height="240" alt={item.name} className="m-3"/>
 
             <h5>{item.name}</h5>

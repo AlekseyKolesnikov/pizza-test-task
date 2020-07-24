@@ -72974,13 +72974,14 @@ module.exports = function(module) {
 /*!***********************************************!*\
   !*** ./resources/js/actions/basketActions.js ***!
   \***********************************************/
-/*! exports provided: dispatchAddToBasket, dispatchRemoveFromBasket */
+/*! exports provided: dispatchAddToBasket, dispatchRemoveFromBasket, dispatchClearBasket */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dispatchAddToBasket", function() { return dispatchAddToBasket; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dispatchRemoveFromBasket", function() { return dispatchRemoveFromBasket; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dispatchClearBasket", function() { return dispatchClearBasket; });
 /* harmony import */ var _types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./types */ "./resources/js/actions/types.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store */ "./resources/js/store.js");
 
@@ -72995,6 +72996,11 @@ var dispatchRemoveFromBasket = function dispatchRemoveFromBasket(id) {
   _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch({
     type: _types__WEBPACK_IMPORTED_MODULE_0__["REMOVE_FROM_BASKET"],
     id: id
+  });
+};
+var dispatchClearBasket = function dispatchClearBasket() {
+  _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch({
+    type: _types__WEBPACK_IMPORTED_MODULE_0__["CLEAR_BASKET"]
   });
 };
 
@@ -73068,13 +73074,14 @@ var changePhoneAction = function changePhoneAction(phone) {
 /*!***************************************!*\
   !*** ./resources/js/actions/types.js ***!
   \***************************************/
-/*! exports provided: ADD_TO_BASKET, REMOVE_FROM_BASKET, SWITCH_CURRENCY, SWITCH_ZONE, CHANGE_ADDRESS, CHANGE_NAME, CHANGE_PHONE */
+/*! exports provided: ADD_TO_BASKET, REMOVE_FROM_BASKET, CLEAR_BASKET, SWITCH_CURRENCY, SWITCH_ZONE, CHANGE_ADDRESS, CHANGE_NAME, CHANGE_PHONE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ADD_TO_BASKET", function() { return ADD_TO_BASKET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_FROM_BASKET", function() { return REMOVE_FROM_BASKET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_BASKET", function() { return CLEAR_BASKET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SWITCH_CURRENCY", function() { return SWITCH_CURRENCY; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SWITCH_ZONE", function() { return SWITCH_ZONE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CHANGE_ADDRESS", function() { return CHANGE_ADDRESS; });
@@ -73082,6 +73089,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CHANGE_PHONE", function() { return CHANGE_PHONE; });
 var ADD_TO_BASKET = 'ADD_TO_BASKET';
 var REMOVE_FROM_BASKET = 'REMOVE_FROM_BASKET';
+var CLEAR_BASKET = 'CLEAR_BASKET';
 var SWITCH_CURRENCY = 'SWITCH_CURRENCY';
 var SWITCH_ZONE = 'SWITCH_ZONE';
 var CHANGE_ADDRESS = 'CHANGE_ADDRESS';
@@ -73270,6 +73278,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ItemList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ItemList */ "./resources/js/components/ItemList.jsx");
 /* harmony import */ var _Basket__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Basket */ "./resources/js/components/Basket.jsx");
 /* harmony import */ var _ModalDetails__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ModalDetails */ "./resources/js/components/ModalDetails.jsx");
+/* harmony import */ var _MessageBox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./MessageBox */ "./resources/js/components/MessageBox.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -73299,7 +73308,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
- // TODO: save Redux to LocalStorage or ...
+
+
 
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
@@ -73313,10 +73323,14 @@ var App = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      showDetails: 0
+      showDetails: 0,
+      message: '',
+      messageClosedCallback: null
     };
     _this.showDetails = _this.showDetails.bind(_assertThisInitialized(_this));
     _this.closeModal = _this.closeModal.bind(_assertThisInitialized(_this));
+    _this.showMessage = _this.showMessage.bind(_assertThisInitialized(_this));
+    _this.closeMessage = _this.closeMessage.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -73332,6 +73346,23 @@ var App = /*#__PURE__*/function (_React$Component) {
     value: function closeModal() {
       this.setState({
         showDetails: 0
+      });
+    }
+  }, {
+    key: "showMessage",
+    value: function showMessage(message, messageClosedCallback) {
+      this.setState({
+        message: message,
+        messageClosedCallback: messageClosedCallback
+      });
+    }
+  }, {
+    key: "closeMessage",
+    value: function closeMessage() {
+      if (this.state.messageClosedCallback) this.state.messageClosedCallback();
+      this.setState({
+        message: '',
+        messageClosedCallback: null
       });
     }
   }, {
@@ -73375,7 +73406,8 @@ var App = /*#__PURE__*/function (_React$Component) {
             basket: _this2.props.basket,
             price: price,
             zones: _this2.props.zones,
-            showDetails: _this2.showDetails
+            showDetails: _this2.showDetails,
+            showMessage: _this2.showMessage
           });
         },
         exact: true
@@ -73385,6 +73417,10 @@ var App = /*#__PURE__*/function (_React$Component) {
         basket: this.props.basket,
         currency: this.props.currency,
         closeModal: this.closeModal
+      }) : null, this.state.message ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageBox__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        message: this.state.message,
+        title: "Information",
+        closeModal: this.closeMessage
       }) : null);
     }
   }]);
@@ -73426,13 +73462,15 @@ var Basket = function Basket(_ref) {
       price = _ref.price,
       basket = _ref.basket,
       showDetails = _ref.showDetails,
-      zones = _ref.zones;
+      zones = _ref.zones,
+      showMessage = _ref.showMessage;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "container mt-5 py-5 pr-4 pr-sm-5 d-flex flex-column bg-center-panel shadow-sm"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProceedOrder__WEBPACK_IMPORTED_MODULE_2__["default"], {
     price: price,
     currency: currency,
-    zones: zones
+    zones: zones,
+    showMessage: showMessage
   }), basket.map(function (basketItem) {
     if (basketItem.qnt < 1) return null;
     var item = items.find(function (el) {
@@ -73532,8 +73570,8 @@ var Item = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "border bg-white mx-1 my-2 m-sm-3 d-flex text-dark text-decoration-none pizza-item w-100",
         href: "pizza/".concat(item.id),
-        onClick: function onClick(e) {
-          e.preventDefault();
+        onClick: function onClick(event) {
+          event.preventDefault();
 
           _this3.props.showDetails(item.id);
         }
@@ -73597,8 +73635,8 @@ var Item = function Item(_ref) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "border bg-white m-3 d-flex flex-column align-items-center text-dark text-decoration-none pizza-item",
     href: "pizza/".concat(item.id),
-    onClick: function onClick(e) {
-      e.preventDefault();
+    onClick: function onClick(event) {
+      event.preventDefault();
       showDetails(item.id);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -73661,6 +73699,64 @@ var ItemList = function ItemList(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ItemList);
+
+/***/ }),
+
+/***/ "./resources/js/components/MessageBox.jsx":
+/*!************************************************!*\
+  !*** ./resources/js/components/MessageBox.jsx ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var MessageBox = function MessageBox(_ref) {
+  var title = _ref.title,
+      message = _ref.message,
+      closeModal = _ref.closeModal;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal fade show",
+    tabIndex: "-1",
+    role: "dialog",
+    "aria-labelledby": "details",
+    "aria-hidden": "true",
+    onClick: closeModal
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-dialog modal-dialog-centered modal"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-content shadow"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+    className: "modal-title",
+    id: "details"
+  }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "close",
+    "data-dismiss": "modal",
+    "aria-label": "Close",
+    onClick: closeModal
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    "aria-hidden": "true"
+  }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: ""
+  }, message)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-footer justify-content-between"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "btn btn-primary",
+    onClick: closeModal
+  }, "Ok")))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (MessageBox);
 
 /***/ }),
 
@@ -73894,7 +73990,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_orderActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/orderActions */ "./resources/js/actions/orderActions.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.js");
+/* harmony import */ var _actions_basketActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions/basketActions */ "./resources/js/actions/basketActions.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.js");
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+
 
 
 
@@ -73906,14 +74008,19 @@ var ProceedOrder = function ProceedOrder(_ref) {
       price = _ref.price,
       zones = _ref.zones,
       order = _ref.order,
-      switchZoneAction = _ref.switchZoneAction,
-      changeAddressAction = _ref.changeAddressAction,
-      changeNameAction = _ref.changeNameAction,
-      changePhoneAction = _ref.changePhoneAction;
+      methods = _objectWithoutProperties(_ref, ["currency", "price", "zones", "order"]);
+
   var zoneIdx = currency ? 'zones_usd' : 'zones';
   var total = price + zones[zoneIdx][order.zone];
+
+  var onSubmit = function onSubmit(event) {
+    event.preventDefault();
+    methods.showMessage('Thank you for your order! We will contact you shortly.', _actions_basketActions__WEBPACK_IMPORTED_MODULE_4__["dispatchClearBasket"]);
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-    className: "border bg-top-panel mx-1 my-2 m-sm-3 d-flex w-100"
+    className: "border bg-top-panel mx-1 my-2 m-sm-3 d-flex w-100",
+    onSubmit: onSubmit
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-75 m-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73924,8 +74031,8 @@ var ProceedOrder = function ProceedOrder(_ref) {
     "aria-label": "Name",
     className: "form-control",
     value: order.name,
-    onChange: function onChange(e) {
-      return changeNameAction(e.target.value);
+    onChange: function onChange(event) {
+      return methods.changeNameAction(event.target.value);
     }
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "tel",
@@ -73933,8 +74040,8 @@ var ProceedOrder = function ProceedOrder(_ref) {
     "aria-label": "Phone",
     className: "form-control",
     value: order.phone,
-    onChange: function onChange(e) {
-      return changePhoneAction(e.target.value);
+    onChange: function onChange(event) {
+      return methods.changePhoneAction(event.target.value);
     }
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "input-group mb-3"
@@ -73947,8 +74054,8 @@ var ProceedOrder = function ProceedOrder(_ref) {
     className: "custom-select",
     id: "zone",
     value: order.zone,
-    onChange: function onChange(e) {
-      return switchZoneAction(e.target.value);
+    onChange: function onChange(event) {
+      return methods.switchZoneAction(event.target.value);
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: "0"
@@ -73965,8 +74072,8 @@ var ProceedOrder = function ProceedOrder(_ref) {
     "aria-label": "Address",
     "aria-describedby": "address",
     value: order.address,
-    onChange: function onChange(e) {
-      return changeAddressAction(e.target.value);
+    onChange: function onChange(event) {
+      return methods.changeAddressAction(event.target.value);
     }
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "w-25 m-4 d-flex flex-column align-items-center justify-content-between"
@@ -73974,8 +74081,8 @@ var ProceedOrder = function ProceedOrder(_ref) {
     className: "mt-2"
   }, "Total:\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
     className: "d-block d-md-inline"
-  }, Object(_utils__WEBPACK_IMPORTED_MODULE_4__["formatPrice"])(total), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-".concat(Object(_utils__WEBPACK_IMPORTED_MODULE_4__["curStr"])(currency)),
+  }, Object(_utils__WEBPACK_IMPORTED_MODULE_5__["formatPrice"])(total), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fa fa-".concat(Object(_utils__WEBPACK_IMPORTED_MODULE_5__["curStr"])(currency)),
     "aria-hidden": "true"
   }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
@@ -74069,6 +74176,11 @@ var reducer = function reducer() {
         }
 
         return _basket;
+      }
+
+    case _actions_types__WEBPACK_IMPORTED_MODULE_0__["CLEAR_BASKET"]:
+      {
+        return initialState;
       }
   }
 

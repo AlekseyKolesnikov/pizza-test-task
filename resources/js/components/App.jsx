@@ -6,8 +6,7 @@ import NavBar from './NavBar';
 import ItemList from './ItemList';
 import Basket from './Basket';
 import ModalDetails from './ModalDetails';
-
-// TODO: save Redux to LocalStorage or ...
+import MessageBox from './MessageBox';
 
 class App extends React.Component {
 	constructor (props) {
@@ -15,10 +14,14 @@ class App extends React.Component {
 
 		this.state = {
 			showDetails: 0,
+			message: '',
+			messageClosedCallback: null,
 		};
 
 		this.showDetails = this.showDetails.bind(this);
 		this.closeModal = this.closeModal.bind(this);
+		this.showMessage = this.showMessage.bind(this);
+		this.closeMessage = this.closeMessage.bind(this);
 	}
 
 	showDetails(id) {
@@ -27,6 +30,15 @@ class App extends React.Component {
 
 	closeModal() {
 		this.setState({showDetails: 0});
+	}
+
+	showMessage(message, messageClosedCallback) {
+		this.setState({message, messageClosedCallback});
+	}
+
+	closeMessage() {
+		if (this.state.messageClosedCallback) this.state.messageClosedCallback();
+		this.setState({message: '', messageClosedCallback: null});
 	}
 
 	render() {
@@ -47,13 +59,17 @@ class App extends React.Component {
 					} exact />
 					<Route path="/basket" component={() =>
 						<Basket items={this.props.items} currency={this.props.currency} basket={this.props.basket} price={price} zones={this.props.zones}
-							showDetails={this.showDetails}/>
+							showDetails={this.showDetails} showMessage={this.showMessage}/>
 					} exact />
 				</Switch>
 
 				{this.state.showDetails
 					? <ModalDetails id={this.state.showDetails} items={this.props.items} basket={this.props.basket} currency={this.props.currency}
 						closeModal={this.closeModal}/>
+					: null}
+
+				{this.state.message
+					? <MessageBox message={this.state.message} title="Information" closeModal={this.closeMessage}/>
 					: null}
 			</BrowserRouter>
 		);

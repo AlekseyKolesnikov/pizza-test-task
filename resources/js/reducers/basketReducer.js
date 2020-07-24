@@ -23,6 +23,9 @@ const reducer = (state = initialState, action) => {
             }
             return basket;
         }
+        case Actions.CLEAR_BASKET: {
+            return initialState;
+        }
     }
     return state;
 }

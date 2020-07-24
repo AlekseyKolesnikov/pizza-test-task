@@ -14,3 +14,9 @@ export const dispatchRemoveFromBasket = (id) => {
         id,
     });
 }
+
+export const dispatchClearBasket = () => {
+    store.dispatch({
+        type: Actions.CLEAR_BASKET
+    });
+}

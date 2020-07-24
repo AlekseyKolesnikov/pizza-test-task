@@ -28,7 +28,7 @@ class Item extends React.Component {
         const item = this.props.item;
         return (
             <a className="border bg-white mx-1 my-2 m-sm-3 d-flex text-dark text-decoration-none pizza-item w-100"
-                href={`pizza/${item.id}`} onClick={e => {e.preventDefault(); this.props.showDetails(item.id)}}>
+                href={`pizza/${item.id}`} onClick={event => {event.preventDefault(); this.props.showDetails(item.id)}}>
                 <img src={`img/${item.img}`} width="240" height="240" alt={item.name} className="m-3 w-240"/>
     
                 <div className="d-flex flex-column justify-content-between align-items-center align-items-md-stretch m-3 mt-4 mr-4 w-100">

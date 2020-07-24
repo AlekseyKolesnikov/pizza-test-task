@@ -1,27 +1,32 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { switchZoneAction, changeAddressAction, changeNameAction, changePhoneAction } from '../actions/orderActions';
+import * as orderActions from '../actions/orderActions';
+import { dispatchClearBasket } from '../actions/basketActions';
 import { formatPrice, curStr } from '../utils';
 
-const ProceedOrder = ({currency, price, zones, order, switchZoneAction, changeAddressAction, changeNameAction, changePhoneAction}) => {
+const ProceedOrder = ({currency, price, zones, order, ...methods}) => {
     const zoneIdx = (currency ? 'zones_usd' : 'zones');
     const total = price + zones[zoneIdx][order.zone];
+    const onSubmit = (event) => {
+        event.preventDefault();
+        methods.showMessage('Thank you for your order! We will contact you shortly.', dispatchClearBasket);
+    }
 
     return (
-        <form className="border bg-top-panel mx-1 my-2 m-sm-3 d-flex w-100">
+        <form className="border bg-top-panel mx-1 my-2 m-sm-3 d-flex w-100" onSubmit={onSubmit}>
             <div className="w-75 m-4">
                 <div className="input-group mb-3">
                     <input type="text" placeholder="Name" aria-label="Name" className="form-control"
-                        value={order.name} onChange={e => changeNameAction(e.target.value)}/>
+                        value={order.name} onChange={event => methods.changeNameAction(event.target.value)}/>
                     <input type="tel" placeholder="Phone" aria-label="Phone" className="form-control"
-                        value={order.phone} onChange={e => changePhoneAction(e.target.value)}/>
+                        value={order.phone} onChange={event => methods.changePhoneAction(event.target.value)}/>
                 </div>
                 <div className="input-group mb-3">
                     <div className="input-group-prepend">
                         <label className="input-group-text" htmlFor="zone">Delivery</label>
                     </div>
-                    <select className="custom-select" id="zone" value={order.zone} onChange={e => switchZoneAction(e.target.value)}>
+                    <select className="custom-select" id="zone" value={order.zone} onChange={event => methods.switchZoneAction(event.target.value)}>
                         <option value="0">Zone #1</option>
                         <option value="1">Zone #2</option>
                         <option value="2">Zone #3</option>
@@ -29,7 +34,7 @@ const ProceedOrder = ({currency, price, zones, order, switchZoneAction, changeAd
                 </div>
                 <div className="input-group">
                     <input type="text" className="form-control" placeholder="Address" aria-label="Address" aria-describedby="address"
-                        value={order.address} onChange={e => changeAddressAction(e.target.value)}/>
+                        value={order.address} onChange={event => methods.changeAddressAction(event.target.value)}/>
                 </div>
             </div>
 
@@ -51,10 +56,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		switchZoneAction: bindActionCreators(switchZoneAction, dispatch),
-		changeAddressAction: bindActionCreators(changeAddressAction, dispatch),
-		changeNameAction: bindActionCreators(changeNameAction, dispatch),
-		changePhoneAction: bindActionCreators(changePhoneAction, dispatch),
+		switchZoneAction: bindActionCreators(orderActions.switchZoneAction, dispatch),
+		changeAddressAction: bindActionCreators(orderActions.changeAddressAction, dispatch),
+		changeNameAction: bindActionCreators(orderActions.changeNameAction, dispatch),
+		changePhoneAction: bindActionCreators(orderActions.changePhoneAction, dispatch),
 	}
 };
 
