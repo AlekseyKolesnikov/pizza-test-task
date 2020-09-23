@@ -1,13 +1,18 @@
 import * as Actions from '../actions/types';
 
-const initialState = {
+export const initialState = {
     zone: 0,
     address: '',
     name: '',
     phone: '',
 };
 
-const reducer = (state = initialState, action) => {
+interface IBasketAction {
+    type: string;
+    payload: number | string;
+}
+
+const reducer = (state = initialState, action: IBasketAction) => {
     switch (action.type) {
         case Actions.SWITCH_ZONE: return {...state, zone: action.payload};
         case Actions.CHANGE_ADDRESS: return {...state, address: action.payload};

@@ -1,9 +1,25 @@
 import React from 'react';
+import * as Types from '../types';
 import AddButton from './AddButton';
 import { formatPrice, getDesc, curStr } from '../utils';
 
-class Item extends React.Component {
-    constructor (props) {
+interface IBasketItemProps {
+    key: number;
+    item: Types.IItem;
+    currency: boolean;
+    qnt: number;
+    showDetails: Types.IFuncNumberReturnVoid;
+}
+
+interface IBasketItemState {
+    desc: string;
+}
+
+class BasketItem extends React.Component<IBasketItemProps, IBasketItemState> {
+    curStr = '';
+    price = '';
+
+    constructor (props: IBasketItemProps) {
         super(props);
 
         this.state = {
@@ -17,10 +33,10 @@ class Item extends React.Component {
     componentDidMount() {
         getDesc(this.props.item.id)
             .then(res => {
-                this.setState({desc: res.data.desc});
+                this.setState({desc: res.toString()});
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             });
     }
 
@@ -48,4 +64,4 @@ class Item extends React.Component {
     }
 }
 
-export default Item;
+export default BasketItem;

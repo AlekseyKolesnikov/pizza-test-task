@@ -3,8 +3,9 @@
  * includes React and other helpers. It's a great starting point while
  * building robust, powerful web applications using React + Laravel.
  */
+//* global require */
 
-require('./bootstrap');
+// require('./bootstrap');
 
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -15,15 +16,19 @@ require('./bootstrap');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import * as Types from './types';
 import store from './store';
-import App from './components/App.jsx';
+import App from './components/App';
 
 const app = document.getElementById('app');
 
 if (app) {
+	const items = JSON.parse(app.dataset.items || '') as Array<Types.IItem>;
+	const zones = JSON.parse(app.dataset.zones || '') as Types.IZones;
+
 	ReactDOM.render(
         <Provider store={store}>
-            <App items={JSON.parse(app.dataset.items)} zones={JSON.parse(app.dataset.zones)} root={app.dataset.root}/>
+            <App items={items} zones={zones} root={app.dataset.root || ''}/>
 		</Provider>, app
 	);
 }

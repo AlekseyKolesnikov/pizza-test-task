@@ -1,7 +1,15 @@
 import React from 'react';
+import * as Types from '../types';
 import Item from './Item';
 
-const ItemList = ({items, currency, basket, showDetails}) => {
+interface IItemListProps {
+	items: Array<Types.IItem>;
+	currency: boolean;
+	basket: Array<Types.IBasketItem>;
+	showDetails: Types.IFuncNumberReturnVoid;
+}
+
+const ItemList = ({items, currency, basket, showDetails}: IItemListProps) => {
     return (
         <div className="container mt-5 py-5 d-flex flex-wrap justify-content-around bg-center-panel shadow-sm">
             {items.map(item => {

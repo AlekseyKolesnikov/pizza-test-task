@@ -1,8 +1,14 @@
 import * as Actions from '../actions/types';
+import { IBasketItem } from '../types';
 
-const initialState = [];
+export const initialState: Array<IBasketItem> = [];
 
-const reducer = (state = initialState, action) => {
+interface IBasketAction {
+    type: string;
+    id: number;
+}
+
+const reducer = (state = initialState, action: IBasketAction) => {
     switch (action.type) {
         case Actions.ADD_TO_BASKET: {
             const basket = [...state];

@@ -1,8 +1,16 @@
 import React from 'react';
+import * as Types from '../types';
 import AddButton from './AddButton';
 import { formatPrice, curStr } from '../utils';
 
-const Item = ({item, currency, qnt, showDetails}) => {
+interface IItemProps {
+    item: Types.IItem;
+    currency: boolean;
+    qnt: number;
+    showDetails: Types.IFuncNumberReturnVoid;
+}
+
+const Item = ({item, currency, qnt, showDetails}: IItemProps) => {
 	const price = (currency ? formatPrice(item.usd) : formatPrice(item.price))
 
     return (

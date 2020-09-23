@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom';
 import { formatPrice } from '../utils';
 import { dispatchSwitchCurrency } from '../actions/currencyActions';
 
-const NavBar = ({price, number, curStr}) => {
+interface INavBarProps {
+	price: number;
+	number: number;
+	curStr: string;
+}
+
+const NavBar = ({price, number, curStr}: INavBarProps) => {
 	return (
 		<nav className="navbar fixed-top navbar-expand navbar-light bg-top-panel shadow-sm border-bottom">
 			<Link className="navbar-brand" to="/">
@@ -13,13 +19,13 @@ const NavBar = ({price, number, curStr}) => {
 			<div className="collapse navbar-collapse" id="navbarSupportedContent">
 				<div className="navbar-nav mr-auto">
 					<div className="nav-item active">
-						<Link to="/" className="nav-link"><h5 className="mt-1 mb-0">PiZZa's menu</h5></Link>
+						<Link to="/" className="nav-link"><h5 className="mt-1 mb-0">PiZZa&apos;s menu</h5></Link>
 					</div>
 				</div>
 				<div className="navbar-nav">
 					<div className="nav-item">
 						<button className="btn btn-outline-primary mr-3" aria-label={curStr} title="Switch Currency"
-							onClick={event => {event.target.blur(); dispatchSwitchCurrency();}}>
+							onClick={event => {(event.target as HTMLElement).blur(); dispatchSwitchCurrency();}}>
 							<strong>{formatPrice(price)}</strong> <i className={`fa fa-${curStr}`} aria-hidden="true"></i>
 						</button>
 					</div>

@@ -1,21 +1,27 @@
 import React from 'react';
+import * as Types from '../types';
 import * as basketActions from '../actions/basketActions';
 
-const addToBasket = (event, id) => {
+const addToBasket = (event: React.MouseEvent, id: number) => {
     event.preventDefault();
     event.stopPropagation();
-    event.target.blur();
+    (event.target as HTMLElement).blur();
     basketActions.dispatchAddToBasket(id);
 }
 
-const removeFromBasket = (event, id) => {
+const removeFromBasket = (event: React.MouseEvent, id: number) => {
     event.preventDefault();
     event.stopPropagation();
-    event.target.blur();
+    (event.target as HTMLElement).blur();
     basketActions.dispatchRemoveFromBasket(id);
 }
 
-const AddButton = ({item, qnt}) => {
+interface IAddButtonProps {
+    item: Types.IItem;
+    qnt: number;
+}
+
+const AddButton = ({item, qnt}: IAddButtonProps) => {
     if (qnt) {
         return (
             <div className="d-flex align-items-center my-3">

@@ -1,14 +1,34 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as Types from '../types';
 import * as orderActions from '../actions/orderActions';
 import { dispatchClearBasket } from '../actions/basketActions';
 import { formatPrice, curStr } from '../utils';
 
-const ProceedOrder = ({currency, price, zones, order, ...methods}) => {
+interface IOrder {
+    name: string;
+    phone: string;
+    address: string;
+    zone: number;
+}
+
+interface IProceedOrderProps {
+    currency: boolean;
+    price: number;
+	zones: Types.IZones;
+	order: IOrder;
+    showMessage: Types.IFuncStringFuncReturnVoid;
+    changeNameAction: Types.IFuncStringReturnVoid;
+    changePhoneAction: Types.IFuncStringReturnVoid;
+    changeAddressAction: Types.IFuncStringReturnVoid;
+    switchZoneAction: Types.IFuncNumberReturnVoid;
+}
+
+const ProceedOrder = ({currency, price, zones, order, ...methods}: IProceedOrderProps) => {
     const zoneIdx = (currency ? 'zones_usd' : 'zones');
     const total = price + zones[zoneIdx][order.zone];
-    const onSubmit = (event) => {
+    const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         methods.showMessage('Thank you for your order! We will contact you shortly.', dispatchClearBasket);
     }
@@ -26,7 +46,7 @@ const ProceedOrder = ({currency, price, zones, order, ...methods}) => {
                     <div className="input-group-prepend">
                         <label className="input-group-text" htmlFor="zone">Delivery</label>
                     </div>
-                    <select className="custom-select" id="zone" value={order.zone} onChange={event => methods.switchZoneAction(event.target.value)}>
+                    <select className="custom-select" id="zone" value={order.zone} onChange={event => methods.switchZoneAction(+event.target.value)}>
                         <option value="0">Zone #1</option>
                         <option value="1">Zone #2</option>
                         <option value="2">Zone #3</option>
@@ -48,13 +68,17 @@ const ProceedOrder = ({currency, price, zones, order, ...methods}) => {
     );
 }
 
-const mapStateToProps = (state) => {
+interface IStateProps {
+	order: IOrder;
+}
+
+const mapStateToProps = (state: IStateProps) => {
 	return {
 		order: state.order,
 	}
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: any) => {
 	return {
 		switchZoneAction: bindActionCreators(orderActions.switchZoneAction, dispatch),
 		changeAddressAction: bindActionCreators(orderActions.changeAddressAction, dispatch),
