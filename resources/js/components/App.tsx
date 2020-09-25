@@ -72,6 +72,7 @@ class App extends React.Component<IAppProps, IAppState> {
 		return (
 			<BrowserRouter basename={this.props.root}>
 				<NavBar price={price} number={qnt} curStr={curStr(currency)}/>
+
 				<Switch>
 					<Route path="/" component={() =>
 						<ItemList items={this.props.items} currency={currency} showDetails={this.showDetails} basket={basket}/>

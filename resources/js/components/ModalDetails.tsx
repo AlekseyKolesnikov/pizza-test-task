@@ -8,7 +8,8 @@ interface IModalDetailsProps {
 	items: Array<Types.IItem>;
 	basket: Array<Types.IBasketItem>;
 	currency: boolean;
-	closeModal: Function;
+	// eslint-disable-next-line no-unused-vars
+	closeModal: (event: React.MouseEvent) => void;
 }
 
 interface IModalDetailsState {
@@ -48,12 +49,12 @@ class ModalDetails extends React.Component<IModalDetailsProps, IModalDetailsStat
         const basketItem = this.props.basket.find(el => el.id == this.item!.id);
 
         return (
-            <div className="modal fade show" tabIndex={-1} role="dialog" aria-labelledby="details" aria-hidden="true" onClick={() => this.props.closeModal()}>
+            <div className="modal fade show" tabIndex={-1} role="dialog" aria-labelledby="details" aria-hidden="true" onClick={this.props.closeModal}>
                 <div className="modal-dialog modal-dialog-centered modal-lg">
                     <div className="modal-content shadow">
                         <div className="modal-header">
                             <h5 className="modal-title" id="details">{this.item!.name}</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => this.props.closeModal()}>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.props.closeModal}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
