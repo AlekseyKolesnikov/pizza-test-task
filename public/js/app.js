@@ -37319,16 +37319,22 @@ var removeFromBasket = function (event, id) {
 };
 var AddButton = function (_a) {
     var item = _a.item, qnt = _a.qnt;
+    var addToBasketClick = function (event) {
+        addToBasket(event, item.id);
+    };
+    var removeFromBasketClick = function (event) {
+        removeFromBasket(event, item.id);
+    };
     if (qnt) {
         return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "d-flex align-items-center my-3" },
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { className: "btn btn-primary", onClick: function (event) { return removeFromBasket(event, item.id); } },
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { className: "btn btn-primary", onClick: removeFromBasketClick },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", { className: "fa fa-minus", "aria-hidden": "true" })),
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", { className: "px-3" }, qnt),
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { className: "btn btn-primary", onClick: function (event) { return addToBasket(event, item.id); } },
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { className: "btn btn-primary", onClick: addToBasketClick },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", { className: "fa fa-plus", "aria-hidden": "true" }))));
     }
     else {
-        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { className: "btn btn-primary my-3", onClick: function (event) { return addToBasket(event, item.id); } },
+        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { className: "btn btn-primary my-3", onClick: addToBasketClick },
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "Add to Cart")));
     }
 };
@@ -37535,7 +37541,11 @@ var BasketItem = /** @class */ (function (_super) {
     BasketItem.prototype.render = function () {
         var _this = this;
         var item = this.props.item;
-        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", { className: "border bg-white mx-1 my-2 m-sm-3 d-flex text-dark text-decoration-none pizza-item w-100", href: "pizza/" + item.id, onClick: function (event) { event.preventDefault(); _this.props.showDetails(item.id); } },
+        var showDetailsClick = function (event) {
+            event.preventDefault();
+            _this.props.showDetails(item.id);
+        };
+        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", { className: "border bg-white mx-1 my-2 m-sm-3 d-flex text-dark text-decoration-none pizza-item w-100", href: "pizza/" + item.id, onClick: showDetailsClick },
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/" + item.img, width: "240", height: "240", alt: item.name, className: "m-3 w-240" }),
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "d-flex flex-column justify-content-between align-items-center align-items-md-stretch m-3 mt-4 mr-4 w-100" },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, item.name),
@@ -37575,7 +37585,11 @@ __webpack_require__.r(__webpack_exports__);
 var Item = function (_a) {
     var item = _a.item, currency = _a.currency, qnt = _a.qnt, showDetails = _a.showDetails;
     var price = (currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.price));
-    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", { className: "border bg-white m-3 d-flex flex-column align-items-center text-dark text-decoration-none pizza-item", href: "pizza/" + item.id, onClick: function (event) { event.preventDefault(); showDetails(item.id); } },
+    var showDetailsClick = function (event) {
+        event.preventDefault();
+        showDetails(item.id);
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", { className: "border bg-white m-3 d-flex flex-column align-items-center text-dark text-decoration-none pizza-item", href: "pizza/" + item.id, onClick: showDetailsClick },
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/" + item.img, width: "240", height: "240", alt: item.name, className: "m-3" }),
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, item.name),
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "d-flex justify-content-between align-items-center px-3 w-100" },
@@ -37630,17 +37644,17 @@ __webpack_require__.r(__webpack_exports__);
 
 var MessageBox = function (_a) {
     var title = _a.title, message = _a.message, closeModal = _a.closeModal;
-    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal fade show", tabIndex: -1, role: "dialog", "aria-labelledby": "details", "aria-hidden": "true", onClick: function () { return closeModal(); } },
+    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal fade show", tabIndex: -1, role: "dialog", "aria-labelledby": "details", "aria-hidden": "true", onClick: closeModal },
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-dialog modal-dialog-centered modal" },
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-content shadow" },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-header" },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", { className: "modal-title", id: "details" }, title),
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close", onClick: function () { return closeModal(); } },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close", onClick: closeModal },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", { "aria-hidden": "true" }, "\u00D7"))),
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-body" },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "" }, message)),
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-footer justify-content-between" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { type: "button", className: "btn btn-primary", onClick: function () { return closeModal(); } }, "Ok"))))));
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { type: "button", className: "btn btn-primary", onClick: closeModal }, "Ok"))))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (MessageBox);
 
@@ -37706,12 +37720,12 @@ var ModalDetails = /** @class */ (function (_super) {
         if (!this.item === undefined)
             return null;
         var basketItem = this.props.basket.find(function (el) { return el.id == _this.item.id; });
-        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal fade show", tabIndex: -1, role: "dialog", "aria-labelledby": "details", "aria-hidden": "true", onClick: function () { return _this.props.closeModal(); } },
+        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal fade show", tabIndex: -1, role: "dialog", "aria-labelledby": "details", "aria-hidden": "true", onClick: this.props.closeModal },
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-dialog modal-dialog-centered modal-lg" },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-content shadow" },
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-header" },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", { className: "modal-title", id: "details" }, this.item.name),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close", onClick: function () { return _this.props.closeModal(); } },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close", onClick: this.props.closeModal },
                             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", { "aria-hidden": "true" }, "\u00D7"))),
                     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-body d-flex flex-wrap flex-sm-nowrap" },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/" + this.item.img, width: "340", height: "340", alt: this.item.name, className: "w-340" }),
@@ -37750,6 +37764,10 @@ __webpack_require__.r(__webpack_exports__);
 
 var NavBar = function (_a) {
     var price = _a.price, number = _a.number, curStr = _a.curStr;
+    var switchCurrencyClick = function (event) {
+        event.target.blur();
+        Object(_actions_currencyActions__WEBPACK_IMPORTED_MODULE_3__["dispatchSwitchCurrency"])();
+    };
     return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", { className: "navbar fixed-top navbar-expand navbar-light bg-top-panel shadow-sm border-bottom" },
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], { className: "navbar-brand", to: "/" },
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/logo.png", width: "40", height: "40", alt: "Pizzas" })),
@@ -37760,7 +37778,7 @@ var NavBar = function (_a) {
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", { className: "mt-1 mb-0" }, "PiZZa's menu")))),
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "navbar-nav" },
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "nav-item" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { className: "btn btn-outline-primary mr-3", "aria-label": curStr, title: "Switch Currency", onClick: function (event) { event.target.blur(); Object(_actions_currencyActions__WEBPACK_IMPORTED_MODULE_3__["dispatchSwitchCurrency"])(); } },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { className: "btn btn-outline-primary mr-3", "aria-label": curStr, title: "Switch Currency", onClick: switchCurrencyClick },
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(price)),
                         " ",
                         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", { className: "fa fa-" + curStr, "aria-hidden": "true" }))),

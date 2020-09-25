@@ -22,20 +22,28 @@ interface IAddButtonProps {
 }
 
 const AddButton = ({item, qnt}: IAddButtonProps) => {
+    const addToBasketClick = (event: React.MouseEvent) => {
+        addToBasket(event, item.id);
+    }
+
+    const removeFromBasketClick = (event: React.MouseEvent) => {
+        removeFromBasket(event, item.id);
+    }
+
     if (qnt) {
         return (
             <div className="d-flex align-items-center my-3">
                 <button className="btn btn-primary"
-                    onClick={event => removeFromBasket(event, item.id)}><i className="fa fa-minus" aria-hidden="true"></i></button>
+                    onClick={removeFromBasketClick}><i className="fa fa-minus" aria-hidden="true"></i></button>
                 <span className="px-3">{qnt}</span>
                 <button className="btn btn-primary"
-                    onClick={event => addToBasket(event, item.id)}><i className="fa fa-plus" aria-hidden="true"></i></button>
+                    onClick={addToBasketClick}><i className="fa fa-plus" aria-hidden="true"></i></button>
             </div>
         );
     } else {
         return (
             <button className="btn btn-primary my-3"
-            onClick={event => addToBasket(event, item.id)}><strong>Add to Cart</strong></button>
+                onClick={addToBasketClick}><strong>Add to Cart</strong></button>
         );
     }
 }

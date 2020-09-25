@@ -10,6 +10,11 @@ interface INavBarProps {
 }
 
 const NavBar = ({price, number, curStr}: INavBarProps) => {
+	const switchCurrencyClick = (event: React.MouseEvent) => {
+		(event.target as HTMLElement).blur();
+		dispatchSwitchCurrency();
+	}
+
 	return (
 		<nav className="navbar fixed-top navbar-expand navbar-light bg-top-panel shadow-sm border-bottom">
 			<Link className="navbar-brand" to="/">
@@ -25,7 +30,7 @@ const NavBar = ({price, number, curStr}: INavBarProps) => {
 				<div className="navbar-nav">
 					<div className="nav-item">
 						<button className="btn btn-outline-primary mr-3" aria-label={curStr} title="Switch Currency"
-							onClick={event => {(event.target as HTMLElement).blur(); dispatchSwitchCurrency();}}>
+							onClick={switchCurrencyClick}>
 							<strong>{formatPrice(price)}</strong> <i className={`fa fa-${curStr}`} aria-hidden="true"></i>
 						</button>
 					</div>
