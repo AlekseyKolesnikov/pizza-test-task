@@ -27,8 +27,10 @@ if (app) {
 	const zones = JSON.parse(app.dataset.zones || '') as Types.IZones;
 
 	ReactDOM.render(
-        <Provider store={store}>
-            <App items={items} zones={zones} root={app.dataset.root || ''}/>
-		</Provider>, app
+		<React.StrictMode>
+			<Provider store={store}>
+				<App items={items} zones={zones} root={app.dataset.root || ''}/>
+			</Provider>
+		</React.StrictMode>, app
 	);
 }

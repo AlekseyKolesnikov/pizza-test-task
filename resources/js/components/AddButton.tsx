@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import * as Types from '../types';
 import * as basketActions from '../actions/basketActions';
 
@@ -22,13 +22,13 @@ interface IAddButtonProps {
 }
 
 const AddButton = ({item, qnt}: IAddButtonProps) => {
-    const addToBasketClick = (event: React.MouseEvent) => {
+    const addToBasketClick = useCallback((event: React.MouseEvent) => {
         addToBasket(event, item.id);
-    }
+    }, [item.id]);
 
-    const removeFromBasketClick = (event: React.MouseEvent) => {
+    const removeFromBasketClick = useCallback((event: React.MouseEvent) => {
         removeFromBasket(event, item.id);
-    }
+    }, [item.id]);
 
     if (qnt) {
         return (

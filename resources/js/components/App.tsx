@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as Types from '../types';
@@ -17,83 +17,65 @@ interface IAppProps {
 	basket?: Array<Types.IBasketItem>;
 }
 
-interface IAppState {
-	showDetailsInfo: number;
-	message: string;
-	messageClosedCallback: Function;
-}
+const App = ({items, zones, root, currency, basket}: IAppProps) => {
+	const [showDetailsInfo, setShowDetailsInfo] = useState(0);
+	const [message, setMessage] = useState('');
+	const [messageClosedCallback, setMessageClosedCallback] = useState((() => {}) as Function);
 
-class App extends React.Component<IAppProps, IAppState> {
-	constructor (props: IAppProps) {
-		super(props);
-
-		this.state = {
-			showDetailsInfo: 0,
-			message: '',
-			messageClosedCallback: () => {},
-		};
-
-		this.showDetails = this.showDetails.bind(this);
-		this.closeModal = this.closeModal.bind(this);
-		this.showMessage = this.showMessage.bind(this);
-		this.closeMessage = this.closeMessage.bind(this);
+	const showDetails = (id: number) => {
+		setShowDetailsInfo(id);
 	}
 
-	showDetails(id: number) {
-		this.setState({showDetailsInfo: id});
+	const closeModal = () => {
+		setShowDetailsInfo(0);
 	}
 
-	closeModal() {
-		this.setState({showDetailsInfo: 0});
+	const showMessage = (msg: string, msgClosedCallback: Function) => {
+		setMessage(msg);
+		setMessageClosedCallback(msgClosedCallback);
 	}
 
-	showMessage(message: string, messageClosedCallback: Function) {
-		this.setState({message, messageClosedCallback});
+	const closeMessage = () => {
+		if (messageClosedCallback) messageClosedCallback();
+		setMessage('');
+		setMessageClosedCallback(() => {});
 	}
+	
+	if (currency === undefined) return null;
+	if (basket === undefined) return null;
 
-	closeMessage() {
-		if (this.state.messageClosedCallback) this.state.messageClosedCallback();
-		this.setState({message: '', messageClosedCallback: () => {}});
-	}
+	let price = 0, qnt = 0;
+	
+	basket.forEach(basketItem => {
+		const item = items.find(el => el.id == basketItem.id) as Types.IItem;
+		price += (currency ? item.usd : item.price) * basketItem.qnt;
+		qnt += basketItem.qnt;
+	});
 
-	render() {
-		// if (!this.props.currency || this.props.basket) return null;
-		const currency = this.props.currency!;
-		const basket = this.props.basket!;
+	return (
+		<BrowserRouter basename={root}>
+			<NavBar price={price} number={qnt} curStr={curStr(currency)}/>
 
-		let price = 0, qnt = 0;
+			<Switch>
+				<Route path="/" component={() =>
+					<ItemList items={items} currency={currency} showDetails={showDetails} basket={basket}/>
+				} exact />
+				<Route path="/basket" component={() =>
+					<Basket items={items} currency={currency} basket={basket} price={price} zones={zones}
+						showDetails={showDetails} showMessage={showMessage}/>
+				} exact />
+			</Switch>
 
-		basket.forEach(basketItem => {
-			const item = this.props.items.find(el => el.id == basketItem.id) as Types.IItem;
-			price += (currency ? item.usd : item.price) * basketItem.qnt;
-			qnt += basketItem.qnt;
-		});
+			{showDetailsInfo
+				? <ModalDetails id={showDetailsInfo} items={items} basket={basket} currency={currency}
+					closeModal={closeModal}/>
+				: null}
 
-		return (
-			<BrowserRouter basename={this.props.root}>
-				<NavBar price={price} number={qnt} curStr={curStr(currency)}/>
-
-				<Switch>
-					<Route path="/" component={() =>
-						<ItemList items={this.props.items} currency={currency} showDetails={this.showDetails} basket={basket}/>
-					} exact />
-					<Route path="/basket" component={() =>
-						<Basket items={this.props.items} currency={currency} basket={basket} price={price} zones={this.props.zones}
-							showDetails={this.showDetails} showMessage={this.showMessage}/>
-					} exact />
-				</Switch>
-
-				{this.state.showDetailsInfo
-					? <ModalDetails id={this.state.showDetailsInfo} items={this.props.items} basket={basket} currency={currency}
-						closeModal={this.closeModal}/>
-					: null}
-
-				{this.state.message
-					? <MessageBox message={this.state.message} title="Information" closeModal={this.closeMessage}/>
-					: null}
-			</BrowserRouter>
-		);
-	}
+			{message
+				? <MessageBox message={message} title="Information" closeModal={closeMessage}/>
+				: null}
+		</BrowserRouter>
+	);
 }
 
 interface IStateProps {

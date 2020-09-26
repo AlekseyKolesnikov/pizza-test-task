@@ -37284,8 +37284,9 @@ var app = document.getElementById('app');
 if (app) {
     var items = JSON.parse(app.dataset.items || '');
     var zones = JSON.parse(app.dataset.zones || '');
-    react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], { store: _store__WEBPACK_IMPORTED_MODULE_3__["default"] },
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_App__WEBPACK_IMPORTED_MODULE_4__["default"], { items: items, zones: zones, root: app.dataset.root || '' })), app);
+    react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.StrictMode, null,
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_2__["Provider"], { store: _store__WEBPACK_IMPORTED_MODULE_3__["default"] },
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_App__WEBPACK_IMPORTED_MODULE_4__["default"], { items: items, zones: zones, root: app.dataset.root || '' }))), app);
 }
 
 
@@ -37319,12 +37320,12 @@ var removeFromBasket = function (event, id) {
 };
 var AddButton = function (_a) {
     var item = _a.item, qnt = _a.qnt;
-    var addToBasketClick = function (event) {
+    var addToBasketClick = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (event) {
         addToBasket(event, item.id);
-    };
-    var removeFromBasketClick = function (event) {
+    }, [item.id]);
+    var removeFromBasketClick = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(function (event) {
         removeFromBasket(event, item.id);
-    };
+    }, [item.id]);
     if (qnt) {
         return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "d-flex align-items-center my-3" },
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { className: "btn btn-primary", onClick: removeFromBasketClick },
@@ -37362,86 +37363,62 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Basket__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Basket */ "./resources/js/components/Basket.tsx");
 /* harmony import */ var _ModalDetails__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ModalDetails */ "./resources/js/components/ModalDetails.tsx");
 /* harmony import */ var _MessageBox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./MessageBox */ "./resources/js/components/MessageBox.tsx");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
+
+
+
+
+
+
+
+
+
+var App = function (_a) {
+    var items = _a.items, zones = _a.zones, root = _a.root, currency = _a.currency, basket = _a.basket;
+    var _b = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0), showDetailsInfo = _b[0], setShowDetailsInfo = _b[1];
+    var _c = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''), message = _c[0], setMessage = _c[1];
+    var _d = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])((function () { })), messageClosedCallback = _d[0], setMessageClosedCallback = _d[1];
+    var showDetails = function (id) {
+        setShowDetailsInfo(id);
     };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    var closeModal = function () {
+        setShowDetailsInfo(0);
     };
-})();
-
-
-
-
-
-
-
-
-
-var App = /** @class */ (function (_super) {
-    __extends(App, _super);
-    function App(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            showDetailsInfo: 0,
-            message: '',
-            messageClosedCallback: function () { },
-        };
-        _this.showDetails = _this.showDetails.bind(_this);
-        _this.closeModal = _this.closeModal.bind(_this);
-        _this.showMessage = _this.showMessage.bind(_this);
-        _this.closeMessage = _this.closeMessage.bind(_this);
-        return _this;
-    }
-    App.prototype.showDetails = function (id) {
-        this.setState({ showDetailsInfo: id });
+    var showMessage = function (msg, msgClosedCallback) {
+        setMessage(msg);
+        setMessageClosedCallback(msgClosedCallback);
     };
-    App.prototype.closeModal = function () {
-        this.setState({ showDetailsInfo: 0 });
+    var closeMessage = function () {
+        if (messageClosedCallback)
+            messageClosedCallback();
+        setMessage('');
+        setMessageClosedCallback(function () { });
     };
-    App.prototype.showMessage = function (message, messageClosedCallback) {
-        this.setState({ message: message, messageClosedCallback: messageClosedCallback });
-    };
-    App.prototype.closeMessage = function () {
-        if (this.state.messageClosedCallback)
-            this.state.messageClosedCallback();
-        this.setState({ message: '', messageClosedCallback: function () { } });
-    };
-    App.prototype.render = function () {
-        var _this = this;
-        // if (!this.props.currency || this.props.basket) return null;
-        var currency = this.props.currency;
-        var basket = this.props.basket;
-        var price = 0, qnt = 0;
-        basket.forEach(function (basketItem) {
-            var item = _this.props.items.find(function (el) { return el.id == basketItem.id; });
-            price += (currency ? item.usd : item.price) * basketItem.qnt;
-            qnt += basketItem.qnt;
-        });
-        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], { basename: this.props.root },
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NavBar__WEBPACK_IMPORTED_MODULE_4__["default"], { price: price, number: qnt, curStr: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["curStr"])(currency) }),
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null,
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/", component: function () {
-                        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ItemList__WEBPACK_IMPORTED_MODULE_5__["default"], { items: _this.props.items, currency: currency, showDetails: _this.showDetails, basket: basket });
-                    }, exact: true }),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/basket", component: function () {
-                        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Basket__WEBPACK_IMPORTED_MODULE_6__["default"], { items: _this.props.items, currency: currency, basket: basket, price: price, zones: _this.props.zones, showDetails: _this.showDetails, showMessage: _this.showMessage });
-                    }, exact: true })),
-            this.state.showDetailsInfo
-                ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalDetails__WEBPACK_IMPORTED_MODULE_7__["default"], { id: this.state.showDetailsInfo, items: this.props.items, basket: basket, currency: currency, closeModal: this.closeModal })
-                : null,
-            this.state.message
-                ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageBox__WEBPACK_IMPORTED_MODULE_8__["default"], { message: this.state.message, title: "Information", closeModal: this.closeMessage })
-                : null));
-    };
-    return App;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component));
+    if (currency === undefined)
+        return null;
+    if (basket === undefined)
+        return null;
+    var price = 0, qnt = 0;
+    basket.forEach(function (basketItem) {
+        var item = items.find(function (el) { return el.id == basketItem.id; });
+        price += (currency ? item.usd : item.price) * basketItem.qnt;
+        qnt += basketItem.qnt;
+    });
+    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], { basename: root },
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NavBar__WEBPACK_IMPORTED_MODULE_4__["default"], { price: price, number: qnt, curStr: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["curStr"])(currency) }),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null,
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/", component: function () {
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ItemList__WEBPACK_IMPORTED_MODULE_5__["default"], { items: items, currency: currency, showDetails: showDetails, basket: basket });
+                }, exact: true }),
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/basket", component: function () {
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Basket__WEBPACK_IMPORTED_MODULE_6__["default"], { items: items, currency: currency, basket: basket, price: price, zones: zones, showDetails: showDetails, showMessage: showMessage });
+                }, exact: true })),
+        showDetailsInfo
+            ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalDetails__WEBPACK_IMPORTED_MODULE_7__["default"], { id: showDetailsInfo, items: items, basket: basket, currency: currency, closeModal: closeModal })
+            : null,
+        message
+            ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageBox__WEBPACK_IMPORTED_MODULE_8__["default"], { message: message, title: "Information", closeModal: closeMessage })
+            : null));
+};
 var mapStateToProps = function (state) {
     return {
         basket: state.basket,
@@ -37499,68 +37476,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _AddButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddButton */ "./resources/js/components/AddButton.tsx");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
 
-var BasketItem = /** @class */ (function (_super) {
-    __extends(BasketItem, _super);
-    function BasketItem(props) {
-        var _this = _super.call(this, props) || this;
-        _this.curStr = '';
-        _this.price = '';
-        _this.state = {
-            desc: 'Loading description...',
-        };
-        _this.curStr = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["curStr"])(props.currency);
-        _this.price = (props.currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(props.item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(props.item.price));
-        return _this;
-    }
-    BasketItem.prototype.componentDidMount = function () {
-        var _this = this;
-        Object(_utils__WEBPACK_IMPORTED_MODULE_2__["getDesc"])(this.props.item.id)
+var BasketItem = function (_a) {
+    var item = _a.item, currency = _a.currency, qnt = _a.qnt, showDetails = _a.showDetails;
+    var _b = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(Object(_utils__WEBPACK_IMPORTED_MODULE_2__["curStr"])(currency)), currencyStr = _b[0], setCurrencyStr = _b[1];
+    var _c = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.price)), price = _c[0], setPrice = _c[1];
+    var _d = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('Loading description...'), desc = _d[0], setDesc = _d[1];
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+        Object(_utils__WEBPACK_IMPORTED_MODULE_2__["getDesc"])(item.id)
             .then(function (res) {
-            _this.setState({ desc: res.toString() });
+            setDesc(res.toString());
         })
             .catch(function (error) {
             console.error(error);
         });
+    }, [item.id]);
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+        setCurrencyStr(Object(_utils__WEBPACK_IMPORTED_MODULE_2__["curStr"])(currency));
+    }, [currency]);
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+        setPrice(currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.price));
+    }, [currency, item]);
+    var showDetailsClick = function (event) {
+        event.preventDefault();
+        showDetails(item.id);
     };
-    BasketItem.prototype.render = function () {
-        var _this = this;
-        var item = this.props.item;
-        var showDetailsClick = function (event) {
-            event.preventDefault();
-            _this.props.showDetails(item.id);
-        };
-        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", { className: "border bg-white mx-1 my-2 m-sm-3 d-flex text-dark text-decoration-none pizza-item w-100", href: "pizza/" + item.id, onClick: showDetailsClick },
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/" + item.img, width: "240", height: "240", alt: item.name, className: "m-3 w-240" }),
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "d-flex flex-column justify-content-between align-items-center align-items-md-stretch m-3 mt-4 mr-4 w-100" },
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, item.name),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", { className: "d-none d-md-block truncate-overflow" },
-                    this.state.desc,
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/hider.png", height: "16" })),
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "d-flex justify-content-between align-items-center flex-column flex-md-row w-100" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", { className: "text-primary" },
-                        this.price,
-                        " ",
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", { className: "fa fa-" + this.curStr, "aria-hidden": "true" })),
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddButton__WEBPACK_IMPORTED_MODULE_1__["default"], { item: item, qnt: this.props.qnt })))));
-    };
-    return BasketItem;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component));
+    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", { className: "border bg-white mx-1 my-2 m-sm-3 d-flex text-dark text-decoration-none pizza-item w-100", href: "pizza/" + item.id, onClick: showDetailsClick },
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/" + item.img, width: "240", height: "240", alt: item.name, className: "m-3 w-240" }),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "d-flex flex-column justify-content-between align-items-center align-items-md-stretch m-3 mt-4 mr-4 w-100" },
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, item.name),
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", { className: "d-none d-md-block truncate-overflow" },
+                desc,
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/hider.png", height: "16" })),
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "d-flex justify-content-between align-items-center flex-column flex-md-row w-100" },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", { className: "text-primary" },
+                    price,
+                    " ",
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", { className: "fa fa-" + currencyStr, "aria-hidden": "true" })),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddButton__WEBPACK_IMPORTED_MODULE_1__["default"], { item: item, qnt: qnt })))));
+};
 /* harmony default export */ __webpack_exports__["default"] = (BasketItem);
 
 
@@ -37674,71 +37630,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _AddButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddButton */ "./resources/js/components/AddButton.tsx");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.ts");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 
 
 
-var ModalDetails = /** @class */ (function (_super) {
-    __extends(ModalDetails, _super);
-    function ModalDetails(props) {
-        var _this = _super.call(this, props) || this;
-        _this.curStr = '';
-        _this.price = '';
-        _this.item = props.items.find(function (el) { return el.id == props.id; });
-        _this.curStr = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["curStr"])(props.currency);
-        if (_this.item)
-            _this.price = (props.currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(_this.item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(_this.item.price));
-        _this.state = {
-            desc: 'Loading description...',
-        };
-        return _this;
-    }
-    ModalDetails.prototype.componentDidMount = function () {
-        var _this = this;
-        Object(_utils__WEBPACK_IMPORTED_MODULE_2__["getDesc"])(this.props.id)
+var ModalDetails = function (_a) {
+    var id = _a.id, items = _a.items, basket = _a.basket, currency = _a.currency, closeModal = _a.closeModal;
+    var item = items.find(function (el) { return el.id == id; });
+    if (item === undefined)
+        return null;
+    var currencyStr = Object(_utils__WEBPACK_IMPORTED_MODULE_2__["curStr"])(currency);
+    var price = currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.price);
+    var basketItem = basket.find(function (el) { return el.id == item.id; });
+    var _b = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('Loading description...'), desc = _b[0], setDesc = _b[1];
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+        Object(_utils__WEBPACK_IMPORTED_MODULE_2__["getDesc"])(id)
             .then(function (res) {
-            _this.setState({ desc: res.toString() });
+            setDesc(res.toString());
         })
             .catch(function (error) {
             console.error(error);
         });
-    };
-    ModalDetails.prototype.render = function () {
-        var _this = this;
-        if (!this.item === undefined)
-            return null;
-        var basketItem = this.props.basket.find(function (el) { return el.id == _this.item.id; });
-        return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal fade show", tabIndex: -1, role: "dialog", "aria-labelledby": "details", "aria-hidden": "true", onClick: this.props.closeModal },
-            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-dialog modal-dialog-centered modal-lg" },
-                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-content shadow" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-header" },
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", { className: "modal-title", id: "details" }, this.item.name),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close", onClick: this.props.closeModal },
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", { "aria-hidden": "true" }, "\u00D7"))),
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-body d-flex flex-wrap flex-sm-nowrap" },
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/" + this.item.img, width: "340", height: "340", alt: this.item.name, className: "w-340" }),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "m-3" }, this.state.desc)),
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-footer justify-content-between" },
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", { className: "text-primary" },
-                            this.price,
-                            " ",
-                            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", { className: "fa fa-" + this.curStr, "aria-hidden": "true" })),
-                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddButton__WEBPACK_IMPORTED_MODULE_1__["default"], { item: this.item, qnt: basketItem ? basketItem.qnt : 0 }))))));
-    };
-    return ModalDetails;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component));
+    }, [id]);
+    return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal fade show", tabIndex: -1, role: "dialog", "aria-labelledby": "details", "aria-hidden": "true", onClick: closeModal },
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-dialog modal-dialog-centered modal-lg" },
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-content shadow" },
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-header" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", { className: "modal-title", id: "details" }, item.name),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close", onClick: closeModal },
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", { "aria-hidden": "true" }, "\u00D7"))),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-body d-flex flex-wrap flex-sm-nowrap" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", { src: "img/" + item.img, width: "340", height: "340", alt: item.name, className: "w-340" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "m-3" }, desc)),
+                react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "modal-footer justify-content-between" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", { className: "text-primary" },
+                        price,
+                        " ",
+                        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", { className: "fa fa-" + currencyStr, "aria-hidden": "true" })),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AddButton__WEBPACK_IMPORTED_MODULE_1__["default"], { item: item, qnt: basketItem ? basketItem.qnt : 0 }))))));
+};
 /* harmony default export */ __webpack_exports__["default"] = (ModalDetails);
 
 
