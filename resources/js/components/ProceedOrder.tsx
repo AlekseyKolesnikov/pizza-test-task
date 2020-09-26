@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Types from '../types';
 import * as orderActions from '../actions/orderActions';
-import { dispatchClearBasket } from '../actions/basketActions';
 import { formatPrice, curStr } from '../utils';
 
 interface IOrder {
@@ -18,7 +17,7 @@ interface IProceedOrderProps {
     price: number;
 	zones: Types.IZones;
 	order: IOrder;
-    showMessage: Types.IFuncStringFuncReturnVoid;
+    proceedOrder: Types.IFuncStringReturnVoid;
     changeNameAction: Types.IFuncStringReturnVoid;
     changePhoneAction: Types.IFuncStringReturnVoid;
     changeAddressAction: Types.IFuncStringReturnVoid;
@@ -28,9 +27,10 @@ interface IProceedOrderProps {
 const ProceedOrder = ({currency, price, zones, order, ...methods}: IProceedOrderProps) => {
     const zoneIdx = (currency ? 'zones_usd' : 'zones');
     const total = price + zones[zoneIdx][order.zone];
+
     const onSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        methods.showMessage('Thank you for your order! We will contact you shortly.', dispatchClearBasket);
+        methods.proceedOrder('Thank you for your order! We will contact you shortly.');
     }
 
     return (

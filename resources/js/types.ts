@@ -21,9 +21,18 @@ export interface IFuncStringReturnVoid {
     (str: string): void;
 }
 
-export interface IFuncStringFuncReturnVoid {
-    // eslint-disable-next-line no-unused-vars
-    (str: string, messageClosedCallback: Function): void;
+export interface IBasketAction {
+    type: string;
+    id: number;
+}
+
+export interface ICurrencyAction {
+    type: string;
+}
+
+export interface IOrderAction {
+    type: string;
+    payload: number | string;
 }
 
 export interface IZones {

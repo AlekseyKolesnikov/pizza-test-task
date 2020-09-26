@@ -37357,12 +37357,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.ts");
-/* harmony import */ var _NavBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NavBar */ "./resources/js/components/NavBar.tsx");
-/* harmony import */ var _ItemList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ItemList */ "./resources/js/components/ItemList.tsx");
-/* harmony import */ var _Basket__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Basket */ "./resources/js/components/Basket.tsx");
-/* harmony import */ var _ModalDetails__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ModalDetails */ "./resources/js/components/ModalDetails.tsx");
-/* harmony import */ var _MessageBox__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./MessageBox */ "./resources/js/components/MessageBox.tsx");
+/* harmony import */ var _actions_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/types */ "./resources/js/actions/types.ts");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store */ "./resources/js/store.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.ts");
+/* harmony import */ var _NavBar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./NavBar */ "./resources/js/components/NavBar.tsx");
+/* harmony import */ var _ItemList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ItemList */ "./resources/js/components/ItemList.tsx");
+/* harmony import */ var _Basket__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Basket */ "./resources/js/components/Basket.tsx");
+/* harmony import */ var _ModalDetails__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./ModalDetails */ "./resources/js/components/ModalDetails.tsx");
+/* harmony import */ var _MessageBox__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./MessageBox */ "./resources/js/components/MessageBox.tsx");
+
+
 
 
 
@@ -37376,22 +37380,23 @@ var App = function (_a) {
     var items = _a.items, zones = _a.zones, root = _a.root, currency = _a.currency, basket = _a.basket;
     var _b = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0), showDetailsInfo = _b[0], setShowDetailsInfo = _b[1];
     var _c = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(''), message = _c[0], setMessage = _c[1];
-    var _d = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])((function () { })), messageClosedCallback = _d[0], setMessageClosedCallback = _d[1];
+    var _d = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(undefined), messageClosedAction = _d[0], setMessageClosedAction = _d[1];
     var showDetails = function (id) {
         setShowDetailsInfo(id);
     };
     var closeModal = function () {
         setShowDetailsInfo(0);
     };
-    var showMessage = function (msg, msgClosedCallback) {
+    var proceedOrder = function (msg) {
         setMessage(msg);
-        setMessageClosedCallback(msgClosedCallback);
+        setMessageClosedAction({ type: _actions_types__WEBPACK_IMPORTED_MODULE_3__["CLEAR_BASKET"] });
     };
     var closeMessage = function () {
-        if (messageClosedCallback)
-            messageClosedCallback();
         setMessage('');
-        setMessageClosedCallback(function () { });
+        if (messageClosedAction) {
+            _store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch(messageClosedAction);
+            setMessageClosedAction(undefined);
+        }
     };
     if (currency === undefined)
         return null;
@@ -37404,19 +37409,19 @@ var App = function (_a) {
         qnt += basketItem.qnt;
     });
     return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["BrowserRouter"], { basename: root },
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NavBar__WEBPACK_IMPORTED_MODULE_4__["default"], { price: price, number: qnt, curStr: Object(_utils__WEBPACK_IMPORTED_MODULE_3__["curStr"])(currency) }),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_NavBar__WEBPACK_IMPORTED_MODULE_6__["default"], { price: price, number: qnt, curStr: Object(_utils__WEBPACK_IMPORTED_MODULE_5__["curStr"])(currency) }),
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null,
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/", component: function () {
-                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ItemList__WEBPACK_IMPORTED_MODULE_5__["default"], { items: items, currency: currency, showDetails: showDetails, basket: basket });
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ItemList__WEBPACK_IMPORTED_MODULE_7__["default"], { items: items, currency: currency, showDetails: showDetails, basket: basket });
                 }, exact: true }),
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], { path: "/basket", component: function () {
-                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Basket__WEBPACK_IMPORTED_MODULE_6__["default"], { items: items, currency: currency, basket: basket, price: price, zones: zones, showDetails: showDetails, showMessage: showMessage });
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Basket__WEBPACK_IMPORTED_MODULE_8__["default"], { items: items, currency: currency, basket: basket, price: price, zones: zones, showDetails: showDetails, proceedOrder: proceedOrder });
                 }, exact: true })),
         showDetailsInfo
-            ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalDetails__WEBPACK_IMPORTED_MODULE_7__["default"], { id: showDetailsInfo, items: items, basket: basket, currency: currency, closeModal: closeModal })
+            ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ModalDetails__WEBPACK_IMPORTED_MODULE_9__["default"], { id: showDetailsInfo, items: items, basket: basket, currency: currency, closeModal: closeModal })
             : null,
         message
-            ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageBox__WEBPACK_IMPORTED_MODULE_8__["default"], { message: message, title: "Information", closeModal: closeMessage })
+            ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MessageBox__WEBPACK_IMPORTED_MODULE_10__["default"], { message: message, title: "Information", closeModal: closeMessage })
             : null));
 };
 var mapStateToProps = function (state) {
@@ -37447,15 +37452,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Basket = function (_a) {
-    var items = _a.items, currency = _a.currency, price = _a.price, basket = _a.basket, showDetails = _a.showDetails, zones = _a.zones, showMessage = _a.showMessage;
+    var items = _a.items, currency = _a.currency, price = _a.price, basket = _a.basket, showDetails = _a.showDetails, zones = _a.zones, proceedOrder = _a.proceedOrder;
     return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "container mt-5 py-5 pr-4 pr-sm-5 d-flex flex-column bg-center-panel shadow-sm" },
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProceedOrder__WEBPACK_IMPORTED_MODULE_2__["default"], { price: price, currency: currency, zones: zones, showMessage: showMessage }),
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ProceedOrder__WEBPACK_IMPORTED_MODULE_2__["default"], { price: price, currency: currency, zones: zones, proceedOrder: proceedOrder }),
         basket.map(function (basketItem) {
-            if (basketItem.qnt < 1)
-                return null;
-            var item = items.find(function (el) { return el.id == basketItem.id; });
-            if (item)
-                return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BasketItem__WEBPACK_IMPORTED_MODULE_1__["default"], { key: item.id, item: item, currency: currency, qnt: basketItem.qnt, showDetails: showDetails });
+            if (basketItem.qnt) {
+                var item = items.find(function (el) { return el.id == basketItem.id; });
+                if (item)
+                    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BasketItem__WEBPACK_IMPORTED_MODULE_1__["default"], { key: item.id, item: item, currency: currency, qnt: basketItem.qnt, showDetails: showDetails });
+            }
         })));
 };
 /* harmony default export */ __webpack_exports__["default"] = (Basket);
@@ -37484,14 +37489,18 @@ var BasketItem = function (_a) {
     var _b = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(Object(_utils__WEBPACK_IMPORTED_MODULE_2__["curStr"])(currency)), currencyStr = _b[0], setCurrencyStr = _b[1];
     var _c = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(currency ? Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.usd) : Object(_utils__WEBPACK_IMPORTED_MODULE_2__["formatPrice"])(item.price)), price = _c[0], setPrice = _c[1];
     var _d = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('Loading description...'), desc = _d[0], setDesc = _d[1];
-    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useLayoutEffect"])(function () {
+        var isDestroying = false;
         Object(_utils__WEBPACK_IMPORTED_MODULE_2__["getDesc"])(item.id)
             .then(function (res) {
-            setDesc(res.toString());
+            if (!isDestroying)
+                setDesc(res.toString());
         })
             .catch(function (error) {
-            console.error(error);
+            if (!isDestroying)
+                console.error(error);
         });
+        return (function () { isDestroying = true; });
     }, [item.id]);
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
         setCurrencyStr(Object(_utils__WEBPACK_IMPORTED_MODULE_2__["curStr"])(currency));
@@ -37737,8 +37746,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_orderActions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/orderActions */ "./resources/js/actions/orderActions.ts");
-/* harmony import */ var _actions_basketActions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions/basketActions */ "./resources/js/actions/basketActions.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./resources/js/utils.ts");
 var __rest = (undefined && undefined.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -37755,14 +37763,13 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
 
 
 
-
 var ProceedOrder = function (_a) {
     var currency = _a.currency, price = _a.price, zones = _a.zones, order = _a.order, methods = __rest(_a, ["currency", "price", "zones", "order"]);
     var zoneIdx = (currency ? 'zones_usd' : 'zones');
     var total = price + zones[zoneIdx][order.zone];
     var onSubmit = function (event) {
         event.preventDefault();
-        methods.showMessage('Thank you for your order! We will contact you shortly.', _actions_basketActions__WEBPACK_IMPORTED_MODULE_4__["dispatchClearBasket"]);
+        methods.proceedOrder('Thank you for your order! We will contact you shortly.');
     };
     return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", { className: "border bg-top-panel mx-1 my-2 m-sm-3 d-flex w-100", onSubmit: onSubmit },
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", { className: "w-75 m-4" },
@@ -37782,9 +37789,9 @@ var ProceedOrder = function (_a) {
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", { className: "mt-2" },
                 "Total:\u00A0",
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", { className: "d-block d-md-inline" },
-                    Object(_utils__WEBPACK_IMPORTED_MODULE_5__["formatPrice"])(total),
+                    Object(_utils__WEBPACK_IMPORTED_MODULE_4__["formatPrice"])(total),
                     " ",
-                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", { className: "fa fa-" + Object(_utils__WEBPACK_IMPORTED_MODULE_5__["curStr"])(currency), "aria-hidden": "true" }))),
+                    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", { className: "fa fa-" + Object(_utils__WEBPACK_IMPORTED_MODULE_4__["curStr"])(currency), "aria-hidden": "true" }))),
             react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", { type: "submit", className: "btn btn-success", disabled: price <= 0 },
                 "Proceed ",
                 react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", { className: "d-none d-md-inline" }, "order")))));

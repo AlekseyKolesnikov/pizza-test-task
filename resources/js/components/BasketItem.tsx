@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import * as Types from '../types';
 import AddButton from './AddButton';
 import { formatPrice, getDesc, curStr } from '../utils';
@@ -15,14 +15,16 @@ const BasketItem = ({item, currency, qnt, showDetails}: IBasketItemProps) => {
     const [price, setPrice] = useState(currency ? formatPrice(item.usd) : formatPrice(item.price));
     const [desc, setDesc] = useState('Loading description...');
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+        let isDestroying = false;
         getDesc(item.id)
             .then(res => {
-                setDesc(res.toString());
+                if (!isDestroying) setDesc(res.toString());
             })
             .catch(error => {
-                console.error(error);
+                if (!isDestroying) console.error(error);
             });
+        return (() => {isDestroying = true});
     }, [item.id]);
 
     useEffect(() => {

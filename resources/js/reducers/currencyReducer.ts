@@ -1,10 +1,7 @@
 import * as Actions from '../actions/types';
+import { ICurrencyAction } from '../types';
 
 export const initialState = false;
-
-interface ICurrencyAction {
-    type: string;
-}
 
 const reducer = (state = initialState, action: ICurrencyAction) => {
     switch (action.type) {

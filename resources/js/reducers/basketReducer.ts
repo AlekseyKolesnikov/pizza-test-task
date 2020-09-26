@@ -1,12 +1,7 @@
 import * as Actions from '../actions/types';
-import { IBasketItem } from '../types';
+import { IBasketItem, IBasketAction } from '../types';
 
 export const initialState: Array<IBasketItem> = [];
-
-interface IBasketAction {
-    type: string;
-    id: number;
-}
 
 const reducer = (state = initialState, action: IBasketAction) => {
     switch (action.type) {

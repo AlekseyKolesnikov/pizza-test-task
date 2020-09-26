@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as Types from '../types';
+import * as Actions from '../actions/types';
+import store from '../store';
 import { curStr } from '../utils';
 import NavBar from './NavBar';
 import ItemList from './ItemList';
@@ -20,7 +22,7 @@ interface IAppProps {
 const App = ({items, zones, root, currency, basket}: IAppProps) => {
 	const [showDetailsInfo, setShowDetailsInfo] = useState(0);
 	const [message, setMessage] = useState('');
-	const [messageClosedCallback, setMessageClosedCallback] = useState((() => {}) as Function);
+	const [messageClosedAction, setMessageClosedAction] = useState(undefined as (Types.IBasketAction | Types.ICurrencyAction | Types.IOrderAction | undefined));
 
 	const showDetails = (id: number) => {
 		setShowDetailsInfo(id);
@@ -30,15 +32,17 @@ const App = ({items, zones, root, currency, basket}: IAppProps) => {
 		setShowDetailsInfo(0);
 	}
 
-	const showMessage = (msg: string, msgClosedCallback: Function) => {
+	const proceedOrder = (msg: string) => {
 		setMessage(msg);
-		setMessageClosedCallback(msgClosedCallback);
+		setMessageClosedAction({type: Actions.CLEAR_BASKET});
 	}
 
 	const closeMessage = () => {
-		if (messageClosedCallback) messageClosedCallback();
 		setMessage('');
-		setMessageClosedCallback(() => {});
+		if (messageClosedAction) {
+			store.dispatch(messageClosedAction);
+			setMessageClosedAction(undefined);
+		}
 	}
 	
 	if (currency === undefined) return null;
@@ -62,7 +66,7 @@ const App = ({items, zones, root, currency, basket}: IAppProps) => {
 				} exact />
 				<Route path="/basket" component={() =>
 					<Basket items={items} currency={currency} basket={basket} price={price} zones={zones}
-						showDetails={showDetails} showMessage={showMessage}/>
+						showDetails={showDetails} proceedOrder={proceedOrder}/>
 				} exact />
 			</Switch>
 
