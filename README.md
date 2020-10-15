@@ -1,3 +1,3 @@
 # pizza-test-task
 
-Order pizza test task. Demo at ecohouse.si/pizza
+React.js + Laravel "Order pizza" test task. Demo at ecohouse.si/pizza
